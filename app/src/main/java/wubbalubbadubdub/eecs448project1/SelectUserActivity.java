@@ -3,7 +3,7 @@ package wubbalubbadubdub.eecs448project1;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class SelectUser extends Activity {
+public class SelectUserActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
