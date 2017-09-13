@@ -24,7 +24,7 @@ public class Dataclass {
 
     /**
      *
-     * @param eventID
+     * @param eventID ID of event in Table
      * @return String of timeslots for a given event ID
      */
     public static String getTimeslots(int eventID) {
