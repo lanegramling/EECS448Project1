@@ -1,4 +1,4 @@
-package wubbalubbadubdub.eecs448project1;
+package wubbalubbadubdub.eecs448project1.data;
 
 import java.util.Vector;
 
