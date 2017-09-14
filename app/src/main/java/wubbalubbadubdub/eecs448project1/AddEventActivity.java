@@ -15,6 +15,8 @@ import android.graphics.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import wubbalubbadubdub.eecs448project1.data.HelperMethods; //For toTime() method
+
 /**
  * AddEventActivity.java
  * @author Dustin, Damian
@@ -55,7 +57,7 @@ public class AddEventActivity extends Activity {
             for (int j = 0; j < 12; j++) {
                 final int current = count;
                 Button b = new Button(this);
-                b.setText(Integer.toString(count)); // TODO Use Lane's method here
+                b.setText(HelperMethods.toTime(count,true)); // TODO implement format boolean for use with toTime()
                 b.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
                 if (timeslots.contains(count)) {
                     b.setBackgroundColor(Color.RED);
