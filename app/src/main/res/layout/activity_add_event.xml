@@ -10,7 +10,8 @@
         android:id="@+id/tvWelcome"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        tools:text="Add Event"
+        android:textSize="15dp"
+        android:text="Add event"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
@@ -86,5 +87,19 @@
         android:layout_marginEnd="31dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginBottom="18dp" />
+
+    <TableLayout
+        android:id="@+id/tbLayout"
+        android:layout_width="1070dp"
+        android:layout_height="0dp"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/saveButton"
+        android:layout_marginTop="31dp"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="28dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView4" />
 
 </android.support.constraint.ConstraintLayout>
