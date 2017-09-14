@@ -1,23 +1,34 @@
 package wubbalubbadubdub.eecs448project1;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.List;
 
 import wubbalubbadubdub.eecs448project1.data.DatabaseHelper;
 
-
+/**
+ * This is the starting activity for our application. Here the user will select or add users
+ * @author Damian
+ * @version 1.0
+ */
 public class SelectUserActivity extends Activity {
     private DatabaseHelper dbHelper;
     private Toast statusMessage;
+    private ListView userList;
 
     /**
      * This function is called when the activity is first created
      * @param savedInstanceState Every oncreate needs this. Allows to revert to previous state
+     * @since 1.0
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +37,41 @@ public class SelectUserActivity extends Activity {
 
         dbHelper = new DatabaseHelper(getApplicationContext());
         statusMessage = Toast.makeText(this, "", Toast.LENGTH_SHORT);
+
+        userList = (ListView) findViewById(R.id.lvUsers);
+        userList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedUser = userList.getItemAtPosition(position).toString();
+
+                Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+                intent.putExtra("currentUser", selectedUser);
+                startActivity(intent);
+            }
+        });
+        populateUsers();
+    }
+
+    /**
+     * This function utilizes the DatabaseHelper class to populate a listview with all users
+     * in the database
+     * @since 1.0
+     */
+    private void populateUsers() {
+        List<String> users = dbHelper.getUsers();
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,
+                users );
+
+        userList.setAdapter(arrayAdapter);
     }
 
     /**
      * This function will utilize the DatabaseHelper to add a new user
      * @param v The View that fired the addUser() function. In this case it is the addUserButton
+     * @since 1.0
      */
     public void addUser(View v) {
         EditText textbox = (EditText) findViewById(R.id.newUsername);
@@ -46,12 +87,14 @@ public class SelectUserActivity extends Activity {
             statusMessage.setText(name + " was added to the list of users");
         }
         statusMessage.show();
+        populateUsers();
     }
 
     /**
      *
      * @param name the string to check the validity of
      * @return false if the name contains invalid characters
+     * @since 1.0
      */
     private boolean isValidName(String name) {
         // TODO Change this to actual conditions later

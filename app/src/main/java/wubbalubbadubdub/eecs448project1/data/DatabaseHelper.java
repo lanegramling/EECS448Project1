@@ -2,9 +2,12 @@ package wubbalubbadubdub.eecs448project1.data;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -63,5 +66,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(DBContract.UserTable.COLUMN_NAME_NAME, name);
 
         return db.insert(DBContract.UserTable.TABLE_NAME, null, values);
+    }
+
+    public List<String> getUsers() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Even though we only get one column, SQLiteDatabase.query() requires a string array
+        String[] columns = {
+                DBContract.UserTable.COLUMN_NAME_NAME
+        };
+        String sortOrder = DBContract.UserTable.COLUMN_NAME_NAME + " COLLATE NOCASE ASC";
+
+        Cursor query = db.query(
+                DBContract.UserTable.TABLE_NAME,
+                columns,
+                null, null, null, null,
+                sortOrder
+        );
+
+        List<String> names = new ArrayList<>();
+        while (query.moveToNext()) {
+            String name = query.getString(query.getColumnIndexOrThrow(DBContract.UserTable.COLUMN_NAME_NAME));
+            names.add(name);
+        }
+
+        return names;
     }
 }
