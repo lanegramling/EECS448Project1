@@ -25,34 +25,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // Create all tables
         db.execSQL(DBContract.UserTable.CREATE_TABLE);
+        db.execSQL(DBContract.EventTable.CREATE_TABLE);
+        db.execSQL(DBContract.SignupTable.CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Delete all tables
         db.execSQL(DBContract.UserTable.DROP_TABLE);
+        onCreate(db);
     }
 
-    /**
-     *
-     * @return A sorted Vector of Events from the Database
-     * @since 1.0
-     */
-    public Vector<Event> getAllEvents() {
-        Vector<Event> sortedListOfEvents = new Vector<Event>(); // Will be sorted through SQL
-
-        return sortedListOfEvents;
-    }
-
-    /**
-     *
-     * @param eventID ID of event in Table
-     * @return String of timeslots for a given event ID
-     */
-    public String getTimeslots(int eventID) {
-
-        return "";
-    }
+    //region User Table Methods
 
     /**
      *
@@ -68,6 +52,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(DBContract.UserTable.TABLE_NAME, null, values);
     }
 
+    /**
+     * This method queries our User table for all Usernames
+     * @return List of strings containing all users
+     */
     public List<String> getUsers() {
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -92,4 +80,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return names;
     }
+
+    //endregion
+
+    //region Event Table Methods
+
+    /**
+     *
+     * @return A sorted Vector of Events from the Database
+     * @since 1.0
+     */
+    public Vector<Event> getAllEvents() {
+        Vector<Event> sortedListOfEvents = new Vector<Event>(); // Will be sorted through SQL
+
+        return sortedListOfEvents;
+    }
+
+    /**
+     *
+     * @param eventID ID of event in Table
+     * @return String of timeslots for a given event ID
+     */
+    public String getTimeslots(int eventID) {
+
+        return "";
+    }
+
+    //endregion
+
+    //region Signup Table Methods
+
+    //endregion
 }
