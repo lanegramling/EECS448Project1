@@ -1,7 +1,9 @@
 package wubbalubbadubdub.eecs448project1;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
 /**
  * AddEventActivity.java
@@ -11,7 +13,19 @@ import android.os.Bundle;
  */
 public class AddEventActivity extends Activity {
 
-    private String userName;
+    private String currentUser;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add_event);
+
+        Intent intent = getIntent();
+        currentUser = intent.getStringExtra("currentUser");
+
+        TextView welcome = (TextView) findViewById(R.id.tvWelcome);
+        welcome.setText(currentUser + ", create your event");
+    }
 
     boolean verify() {
         //conditions for false: eventName not  within parameters, eventDate isn't real
@@ -32,9 +46,5 @@ public class AddEventActivity extends Activity {
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_event);
-    }
+
 }
