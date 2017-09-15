@@ -20,7 +20,7 @@ import wubbalubbadubdub.eecs448project1.data.HelperMethods; //For toTime() metho
 
 /**
  * AddEventActivity.java
- * @author Dustin, Damian
+ * @author Dustin, Damian, Lane
  * @version 1.0
  * This Class allows the user to create an event and select timeslots for the event created
  */
@@ -28,7 +28,7 @@ public class AddEventActivity extends Activity {
 
     private String currentUser;
     private List<Integer> selectedTimeslots;
-    private boolean timeType = false;
+    private boolean format = false; //Time format: false=12h | true=24h
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class AddEventActivity extends Activity {
             for (int j = 0; j < 12; j++) {
                 final int current = count;
                 Button b = new Button(this);
-                b.setText(HelperMethods.toTime(count,timeType));
+                b.setText(HelperMethods.toTime(count,format));
                 b.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
                 TableRow.LayoutParams cellParams = new TableRow.LayoutParams();
                 cellParams.rightMargin = 5;
@@ -98,23 +98,23 @@ public class AddEventActivity extends Activity {
         String slots = "SELECTED TIMES: ";
         Collections.sort(selectedTimeslots);
         for(Integer slot : selectedTimeslots) {
-            slots = slots + HelperMethods.toTime(slot, timeType) +",";
+            slots = slots + HelperMethods.toTime(slot, format) +",";
         }
         slots = slots.substring(0,slots.length() - 1);
         timeDisplay.setText(slots);
     }
 
-    public void toggleTimeType(View v) {
+    public void toggleFormat(View v) {
         TableLayout tableLayout = (TableLayout) findViewById(R.id.tbLayout);
 
-        timeType = !timeType;
+        format = !format;
 
         int count = 0;
         for (int i = 0; i < 4; i++) {
             TableRow row = (TableRow)tableLayout.getChildAt(i);
             for (int j = 0; j < 12; j++) {
                 Button b = (Button) row.getChildAt(j);
-                b.setText(HelperMethods.toTime(count, timeType));
+                b.setText(HelperMethods.toTime(count, format));
                 count++;
             }
         }
@@ -122,14 +122,41 @@ public class AddEventActivity extends Activity {
 
     }
 
+    /**
+     * @param v - view passed from tbTimeFormat's onClick event
+     * @since 1.0
+     */
+    public void formatTimes(View v) {
+
+        format = !format;
+
+        //Loop through table and update the text on each button
+        int count = 0;
+        TableLayout layout = (TableLayout) findViewById(R.id.tbLayout);
+        for (int i = 0; i < 4; i++) {
+            TableRow tr = (TableRow)layout.getChildAt(i);
+            for (int j = 0; j < 12; j++) {
+                Button b = (Button)tr.getChildAt(j);
+                b.setText(HelperMethods.toTime(count,format));
+                count++;
+            }
+        }
+
+    }
+
     boolean verify() {
         //conditions for false: eventName not  within parameters, eventDate isn't real
         //no timeSlots selected
+
+
+
+
+
         return (true); //will be changed later
     }
     void onButtonClick() {
         //will run verify function and check for trueness
-        //if verift returns true, we can push the information given in the AddEventActivity class
+        //if verify returns true, we can push the information given in the AddEventActivity class
         //to the database
         if (verify()){
             //add user info to database
