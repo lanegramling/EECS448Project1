@@ -1,5 +1,9 @@
 package wubbalubbadubdub.eecs448project1.data;
 
+import android.provider.CalendarContract;
+
+import java.util.Calendar;
+
 /**
  * HelperMethods.java
  * @author Lane, Damian
@@ -32,6 +36,30 @@ public class HelperMethods {
         if (!format) time = (timeslot < 24) ? time + "AM" : time + "PM"; // AM/PM for 12h format
 
         return time;
+    }
+
+
+    /**
+     * @param month - month of a given date
+     * @param day - day of a given date
+     * @param year - year of a given date
+     * @return a string in MM/DD/YYYY format
+     * @since 1.0
+     */
+    public static String dateToString(int month, int day, int year)
+    {return (month + "/" + day + "/" + year);}
+
+    /**
+     * @return a string in MM/DD/YYYY format of the current year
+     * @since 1.0
+     */
+    public static String getCurrentDate()
+    {
+        Calendar cal = Calendar.getInstance();
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int year = cal.get(Calendar.YEAR);
+        return dateToString(month, day, year);
     }
 
 }
