@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.graphics.Color;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import wubbalubbadubdub.eecs448project1.data.HelperMethods; //For toTime() method
@@ -26,8 +27,8 @@ import wubbalubbadubdub.eecs448project1.data.HelperMethods; //For toTime() metho
 public class AddEventActivity extends Activity {
 
     private String currentUser;
-    private List<Integer> timeslots;
     private List<Integer> selectedTimeslots;
+    private boolean timeType = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +41,6 @@ public class AddEventActivity extends Activity {
         TextView welcome = (TextView) findViewById(R.id.tvWelcome);
         welcome.setText(currentUser + ", create your event");
         selectedTimeslots = new ArrayList<>();
-        timeslots = new ArrayList<>();
-        timeslots.add(1);
-        timeslots.add(5);
-        timeslots.add(10);
 
         createTimeslotTable();
     }
@@ -57,33 +54,72 @@ public class AddEventActivity extends Activity {
             for (int j = 0; j < 12; j++) {
                 final int current = count;
                 Button b = new Button(this);
-                b.setText(HelperMethods.toTime(count,true)); // TODO implement format boolean for use with toTime()
+                b.setText(HelperMethods.toTime(count,timeType));
                 b.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-                if (timeslots.contains(count)) {
-                    b.setBackgroundColor(Color.RED);
-                    b.setOnClickListener(new Button.OnClickListener() {
-                        int id = current;
+                TableRow.LayoutParams cellParams = new TableRow.LayoutParams();
+                cellParams.rightMargin = 5;
+                b.setLayoutParams(cellParams);
+                b.setBackgroundColor(Color.RED);
+                b.setOnClickListener(new Button.OnClickListener() {
+                    int id = current;
+                    boolean selected = false;
 
-                        @Override
-                        public void onClick(View v) {
-                            Button obj = (Button) v;
-                            if (((ColorDrawable)obj.getBackground()).getColor() == Color.RED) {
-                                obj.setBackgroundColor(Color.GREEN);
-                                selectedTimeslots.add(id);
-                            } else {
-                                obj.setBackgroundColor(Color.RED);
-                                selectedTimeslots.remove(Integer.valueOf(id));
-                            }
+                    @Override
+                    public void onClick(View v) {
+                        Button obj = (Button) v;
+                        if (selected) {
+                            obj.setBackgroundColor(Color.RED);
+                            selectedTimeslots.remove(Integer.valueOf(id));
+                            selected = false;
+                        } else {
+                            obj.setBackgroundColor(Color.GREEN);
+                            selectedTimeslots.add(id);
+                            selected = true;
                         }
-                    });
-                } else {
-                    b.setBackgroundColor(Color.DKGRAY);
-                }
+                        updateTimeDisplay();
+                    }
+                });
                 tr.addView(b);
                 count++;
             }
-            layout.addView(tr);
+            TableLayout.LayoutParams tableRowParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
+
+            tableRowParams.setMargins(10, 2, 10, 2);
+
+            tr.setLayoutParams(tableRowParams);
+
+
+            layout.addView(tr, tableRowParams);
         }
+    }
+
+    private void updateTimeDisplay() {
+        TextView timeDisplay = (TextView) findViewById(R.id.tvSelectedTimes);
+        String slots = "SELECTED TIMES: ";
+        Collections.sort(selectedTimeslots);
+        for(Integer slot : selectedTimeslots) {
+            slots = slots + HelperMethods.toTime(slot, timeType) +",";
+        }
+        slots = slots.substring(0,slots.length() - 1);
+        timeDisplay.setText(slots);
+    }
+
+    public void toggleTimeType(View v) {
+        TableLayout tableLayout = (TableLayout) findViewById(R.id.tbLayout);
+
+        timeType = !timeType;
+
+        int count = 0;
+        for (int i = 0; i < 4; i++) {
+            TableRow row = (TableRow)tableLayout.getChildAt(i);
+            for (int j = 0; j < 12; j++) {
+                Button b = (Button) row.getChildAt(j);
+                b.setText(HelperMethods.toTime(count, timeType));
+                count++;
+            }
+        }
+        updateTimeDisplay();
+
     }
 
     boolean verify() {
