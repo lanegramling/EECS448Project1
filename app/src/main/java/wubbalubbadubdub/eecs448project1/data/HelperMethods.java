@@ -49,6 +49,17 @@ public class HelperMethods {
     {return (month + "/" + day + "/" + year);}
 
     /**
+     * @param date - A date in the string form as created by dateToString()
+     * @return [0]: month | [1]: day | [2]: year (all ints)
+     */
+    public static int[] dateSplitString(String date) {
+        int[] splitDate = {Integer.parseInt(date.substring(0,2)),
+                            Integer.parseInt(date.substring(3,5)),
+                            Integer.parseInt(date.substring(6,10))};
+        return splitDate;
+    }
+
+    /**
      * @return a string in MM/DD/YYYY format of the current year
      * @since 1.0
      */
