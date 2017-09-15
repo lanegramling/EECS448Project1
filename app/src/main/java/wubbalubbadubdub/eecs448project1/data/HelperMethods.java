@@ -59,6 +59,7 @@ public class HelperMethods {
             // At the end finish out the working slot.
             timestring = timestring + toTime(workingTimeslot, format) + "-" + toTime((prevTime + 1) % 48, format);
         }
+        if (workingTimeslot == 0 && prevTime == 47) timestring = "ALL DAY LONG";
 
         return timestring;
     }
