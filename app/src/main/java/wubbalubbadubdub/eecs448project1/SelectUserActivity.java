@@ -17,7 +17,7 @@ import wubbalubbadubdub.eecs448project1.data.DatabaseHelper;
 
 /**
  * This is the starting activity for our application. Here the user will select or add users
- * @author Damian
+ * @author Damian, Lane
  * @version 1.0
  */
 public class SelectUserActivity extends Activity {

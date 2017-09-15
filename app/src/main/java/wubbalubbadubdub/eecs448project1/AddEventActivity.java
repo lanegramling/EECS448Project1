@@ -19,7 +19,7 @@ import wubbalubbadubdub.eecs448project1.data.HelperMethods; //For toTime() metho
 
 /**
  * AddEventActivity.java
- * @author Dustin, Damian
+ * @author Dustin, Damian, Lane
  * @version 1.0
  * This Class allows the user to create an event and select timeslots for the event created
  */
@@ -28,6 +28,7 @@ public class AddEventActivity extends Activity {
     private String currentUser;
     private List<Integer> timeslots;
     private List<Integer> selectedTimeslots;
+    private boolean format = false; //Time format: false=12h | true=24h
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +42,8 @@ public class AddEventActivity extends Activity {
         welcome.setText(currentUser + ", create your event");
         selectedTimeslots = new ArrayList<>();
         timeslots = new ArrayList<>();
-        timeslots.add(1);
-        timeslots.add(5);
-        timeslots.add(10);
+
+        for (int i = 0; i < 47; i++) timeslots.add(i); //(Temporary, add all timeslots as available)
 
         createTimeslotTable();
     }
@@ -57,7 +57,7 @@ public class AddEventActivity extends Activity {
             for (int j = 0; j < 12; j++) {
                 final int current = count;
                 Button b = new Button(this);
-                b.setText(HelperMethods.toTime(count,true)); // TODO implement format boolean for use with toTime()
+                b.setText(HelperMethods.toTime(count,format)); // TODO implement format boolean for use with toTime()
                 b.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
                 if (timeslots.contains(count)) {
                     b.setBackgroundColor(Color.RED);
