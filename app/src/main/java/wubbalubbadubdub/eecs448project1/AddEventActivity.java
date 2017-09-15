@@ -154,6 +154,7 @@ public class AddEventActivity extends Activity {
 
         return (true); //will be changed later
     }
+
     void onButtonClick() {
         //will run verify function and check for trueness
         //if verify returns true, we can push the information given in the AddEventActivity class
