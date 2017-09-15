@@ -43,7 +43,7 @@ public class AddEventActivity extends Activity {
         selectedTimeslots = new ArrayList<>();
         timeslots = new ArrayList<>();
 
-        for (int i = 0; i < 47; i++) timeslots.add(i); //(Temporary, add all timeslots as available)
+        for (int i = 0; i < 48; i++) timeslots.add(i); //(Temporary(?), add all timeslots as available)
 
         createTimeslotTable();
     }
@@ -60,18 +60,18 @@ public class AddEventActivity extends Activity {
                 b.setText(HelperMethods.toTime(count,format)); // TODO implement format boolean for use with toTime()
                 b.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
                 if (timeslots.contains(count)) {
-                    b.setBackgroundColor(Color.RED);
+                    b.setBackgroundColor(Color.GREEN);
                     b.setOnClickListener(new Button.OnClickListener() {
                         int id = current;
 
                         @Override
                         public void onClick(View v) {
                             Button obj = (Button) v;
-                            if (((ColorDrawable)obj.getBackground()).getColor() == Color.RED) {
-                                obj.setBackgroundColor(Color.GREEN);
+                            if (((ColorDrawable)obj.getBackground()).getColor() == Color.GREEN) {
+                                obj.setBackgroundColor(Color.BLUE);
                                 selectedTimeslots.add(id);
                             } else {
-                                obj.setBackgroundColor(Color.RED);
+                                obj.setBackgroundColor(Color.GREEN);
                                 selectedTimeslots.remove(Integer.valueOf(id));
                             }
                         }
@@ -86,14 +86,41 @@ public class AddEventActivity extends Activity {
         }
     }
 
+    /**
+     * @param v - view passed from tbTimeFormat's onClick event
+     * @since 1.0
+     */
+    public void formatTimes(View v) {
+
+        format = !format;
+
+        //Loop through table and update the text on each button
+        int count = 0;
+        TableLayout layout = (TableLayout) findViewById(R.id.tbLayout);
+        for (int i = 0; i < 4; i++) {
+            TableRow tr = (TableRow)layout.getChildAt(i);
+            for (int j = 0; j < 12; j++) {
+                Button b = (Button)tr.getChildAt(j);
+                b.setText(HelperMethods.toTime(count,format));
+                count++;
+            }
+        }
+
+    }
+
     boolean verify() {
         //conditions for false: eventName not  within parameters, eventDate isn't real
         //no timeSlots selected
+
+
+
+
+
         return (true); //will be changed later
     }
     void onButtonClick() {
         //will run verify function and check for trueness
-        //if verift returns true, we can push the information given in the AddEventActivity class
+        //if verify returns true, we can push the information given in the AddEventActivity class
         //to the database
         if (verify()){
             //add user info to database
