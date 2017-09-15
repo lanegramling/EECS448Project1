@@ -12,7 +12,7 @@ import android.provider.BaseColumns;
 public final class DBContract {
 
     // Version should be changed IF any schemas are MODIFIED
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "database.db";
 
 
@@ -47,11 +47,13 @@ public final class DBContract {
         public static final String COLUMN_NAME_TITLE = "title";
         public static final String COLUMN_NAME_TIMESLOTS = "timeslots";
         public static final String COLUMN_NAME_CREATOR = "creator";
+        public static final String COLUMN_NAME_DAY = "day";
 
         public static final String CREATE_TABLE = "CREATE TABLE " +
                 TABLE_NAME + " (" +
                 _ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 COLUMN_NAME_TITLE + " TEXT," +
+                COLUMN_NAME_DAY + " TEXT," +
                 COLUMN_NAME_TIMESLOTS + " TEXT," +
                 COLUMN_NAME_CREATOR + " TEXT);";
         public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
