@@ -57,7 +57,7 @@ public class AddEventActivity extends Activity {
             for (int j = 0; j < 12; j++) {
                 final int current = count;
                 Button b = new Button(this);
-                b.setText(HelperMethods.toTime(count,format)); // TODO implement format boolean for use with toTime()
+                b.setText(HelperMethods.toTime(count,format));
                 b.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
                 if (timeslots.contains(count)) {
                     b.setBackgroundColor(Color.GREEN);

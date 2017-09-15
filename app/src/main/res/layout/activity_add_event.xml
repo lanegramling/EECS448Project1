@@ -8,34 +8,35 @@
 
     <TextView
         android:id="@+id/tvWelcome"
-        android:layout_width="111dp"
-        android:layout_height="42dp"
-        android:textSize="15dp"
-        android:text="Add event"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toTopOf="@+id/tvEventName"
-        app:layout_constraintRight_toRightOf="@+id/tvEventName"
-        android:layout_marginTop="16dp"
-        tools:layout_constraintLeft_creator="1"
+        android:layout_width="202dp"
+        android:layout_height="57dp"
         android:layout_marginBottom="25dp"
-        app:layout_constraintLeft_toLeftOf="@+id/tvEventName"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
+        android:text="Add event"
+        android:textSize="21dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvEventName"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintLeft_toLeftOf="@+id/tvEventName"
+        app:layout_constraintRight_toRightOf="@+id/tvEventName"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
     <TextView
         android:id="@+id/tvEventName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="82dp"
+        android:layout_marginTop="100dp"
         android:text="Event Name:"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1" />
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginLeft="16dp" />
 
     <TextView
         android:id="@+id/tvDate"
@@ -57,12 +58,11 @@
         android:inputType="textPersonName"
         android:text=""
         tools:layout_constraintTop_creator="1"
-        android:layout_marginStart="175dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="87dp"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="175dp" />
+        app:layout_constraintLeft_toRightOf="@+id/tvEventName"
+        android:layout_marginLeft="111dp" />
 
     <TextView
         android:id="@+id/tvSelectEvent"
@@ -71,10 +71,11 @@
         android:text="Select Event Time Slots:"
         tools:layout_constraintTop_creator="1"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="25dp"
         app:layout_constraintTop_toBottomOf="@+id/tvDate"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="16dp" />
 
     <Button
         android:id="@+id/saveButton"
@@ -92,8 +93,8 @@
         android:id="@+id/tvKeyReserved"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="192dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="170dp"
         android:background="@android:color/holo_blue_dark"
         android:padding="5px"
         android:text="Reserved"
@@ -108,9 +109,9 @@
         android:padding="5px"
         android:text="Available"
         app:layout_constraintRight_toLeftOf="@+id/tvKeyReserved"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="15dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="192dp" />
+        android:layout_marginTop="170dp" />
 
     <TableLayout
         android:id="@+id/tbLayout"
@@ -132,13 +133,13 @@
         android:id="@+id/tbTimeFormat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="214dp"
+        android:layout_marginRight="221dp"
         android:text="ToggleButton"
         android:textOff="12h"
         android:textOn="24h"
         android:onClick="formatTimes"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="175dp" />
+        android:layout_marginTop="157dp" />
 
 </android.support.constraint.ConstraintLayout>
