@@ -1,12 +1,8 @@
 package wubbalubbadubdub.eecs448project1.data;
 
 /**
- * Created by lane on 9/14/17.
- */
-
-/**
  * HelperMethods.java
- * @author Lane
+ * @author Lane, Damian
  * @version 1.0
  * Contains methods used to assist functionality of activities
  */
@@ -33,6 +29,7 @@ public class HelperMethods {
 
         String time = hour + ":" + min; //Build time string
         time = (format && (hour < 10)) ? ("0" + time) : time; //Add leading zero if needed in 24h format
+        if (!format) time = (timeslot < 24) ? time + "AM" : time + "PM"; // AM/PM for 12h format
 
         return time;
     }
