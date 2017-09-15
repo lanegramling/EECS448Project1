@@ -52,23 +52,24 @@ public class HelperMethods {
      * @param date - A date in the string form as created by dateToString()
      * @return [0]: month | [1]: day | [2]: year (all ints)
      */
-    public static int[] dateSplitString(String date) {
+   /* public static int[] dateSplitString(String date) {
         int[] splitDate = {Integer.parseInt(date.substring(0,2)),
                             Integer.parseInt(date.substring(3,5)),
-                            Integer.parseInt(date.substring(6,10))};
+                            Integer.parseInt(date.substring(6))};
         return splitDate;
-    }
+    }*/
 
     /**
      * @return a string in MM/DD/YYYY format of the current year
      * @since 1.0
      */
-    public static String getCurrentDate() {
+    public static int[] getCurrentDate() {
         Calendar cal = Calendar.getInstance();
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
         int year = cal.get(Calendar.YEAR);
-        return dateToString(month, day, year);
+        int[] date = {month, day, year};
+        return date;
     }
 
     /**

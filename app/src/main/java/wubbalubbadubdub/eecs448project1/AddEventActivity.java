@@ -46,6 +46,17 @@ public class AddEventActivity extends Activity {
         selectedTimeslots = new ArrayList<>();
 
         createTimeslotTable();
+        //Set Date Picker to current date
+        int[] date = HelperMethods.getCurrentDate();
+        DatePicker datePicker = (DatePicker) findViewById(R.id.datePicker);
+        int month = date[0];
+        int day = date[1];
+        int year = date[2];
+        datePicker.updateDate(year, month - 1, day);
+
+
+
+
     }
 
     private void createTimeslotTable() {
@@ -147,7 +158,7 @@ public class AddEventActivity extends Activity {
     boolean verify() {
         //conditions for false:
         // eventName not  within parameters
-        // eventDate isn't real
+        // eventDate is a valid date
         //no timeSlots selected
 
 
