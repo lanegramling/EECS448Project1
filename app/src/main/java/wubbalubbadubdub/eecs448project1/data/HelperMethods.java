@@ -1,5 +1,8 @@
 package wubbalubbadubdub.eecs448project1.data;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * HelperMethods.java
  * @author Lane, Damian
@@ -32,6 +35,32 @@ public class HelperMethods {
         if (!format) time = (timeslot < 24) ? time + "AM" : time + "PM"; // AM/PM for 12h format
 
         return time;
+    }
+
+    public static String getTimeString(List<Integer> timeslots, boolean format) {
+        // Sort it
+        Collections.sort(timeslots);
+
+        String timestring = "";
+
+        int prevTime = -1;
+        int workingTimeslot = -1;
+        for(Integer slot : timeslots) {
+            if (workingTimeslot == -1) {// First iteration
+                workingTimeslot = slot;
+            } else if (slot != prevTime + 1) {
+                // Make time with workingtimeslot and prevTime
+                timestring = timestring + toTime(workingTimeslot, format) + "-" + toTime(prevTime + 1, format) + ", ";
+                workingTimeslot = slot;
+            }
+            prevTime = slot;
+        }
+        if (workingTimeslot != -1) {
+            // At the end finish out the working slot.
+            timestring = timestring + toTime(workingTimeslot, format) + "-" + toTime((prevTime + 1) % 48, format);
+        }
+
+        return timestring;
     }
 
 }

@@ -138,7 +138,7 @@
 
     <TableLayout
         android:id="@+id/tbLayout"
-        android:layout_width="820dp"
+        android:layout_width="wrap_content"
         android:layout_height="312dp"
         android:layout_marginBottom="28dp"
         android:layout_marginLeft="0dp"
