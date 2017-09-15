@@ -11,10 +11,13 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.graphics.Color;
+import android.widget.DatePicker;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 
 import wubbalubbadubdub.eecs448project1.data.HelperMethods; //For toTime() method
 
@@ -142,7 +145,9 @@ public class AddEventActivity extends Activity {
     }
 
     boolean verify() {
-        //conditions for false: eventName not  within parameters, eventDate isn't real
+        //conditions for false:
+        // eventName not  within parameters
+        // eventDate isn't real
         //no timeSlots selected
 
 
@@ -157,7 +162,14 @@ public class AddEventActivity extends Activity {
         //if verify returns true, we can push the information given in the AddEventActivity class
         //to the database
         if (verify()){
-            //add user info to database
+            //found this block of code on
+            // https://stackoverflow.com/questions/6421874/how-to-get-the-date-from-the-datepicker-widget-in-android
+            DatePicker datePicker = (DatePicker) findViewById(R.id.datePicker);
+            int day = datePicker.getDayOfMonth();
+            int month = datePicker.getMonth() + 1;
+            int year = datePicker.getYear();
+            String userDate = HelperMethods.dateToString(day, month, year);
+            //to-do add user date info to database
         }
         else{
             //tell user there has been an error and let user fill out text boxes again
