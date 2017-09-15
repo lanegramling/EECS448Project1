@@ -102,6 +102,6 @@ public class SelectUserActivity extends Activity {
             return false;
         } else {
             return true;
-        }
+        }//SELECTUSER BRANCH TEST
     }
 }
