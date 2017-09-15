@@ -95,13 +95,10 @@ public class AddEventActivity extends Activity {
 
     private void updateTimeDisplay() {
         TextView timeDisplay = (TextView) findViewById(R.id.tvSelectedTimes);
-        String slots = "SELECTED TIMES: ";
-        Collections.sort(selectedTimeslots);
-        for(Integer slot : selectedTimeslots) {
-            slots = slots + HelperMethods.toTime(slot, format) +",";
-        }
-        slots = slots.substring(0,slots.length() - 1);
-        timeDisplay.setText(slots);
+
+        String disp = "Event Timeframe: " + HelperMethods.getTimeString(selectedTimeslots, format);
+
+        timeDisplay.setText(disp);
     }
 
     public void toggleFormat(View v) {

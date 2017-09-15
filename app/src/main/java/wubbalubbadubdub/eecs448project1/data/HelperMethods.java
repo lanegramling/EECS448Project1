@@ -1,8 +1,8 @@
 package wubbalubbadubdub.eecs448project1.data;
 
-import android.provider.CalendarContract;
-
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * HelperMethods.java
@@ -38,7 +38,6 @@ public class HelperMethods {
         return time;
     }
 
-
     /**
      * @param month - month of a given date
      * @param day - day of a given date
@@ -53,13 +52,44 @@ public class HelperMethods {
      * @return a string in MM/DD/YYYY format of the current year
      * @since 1.0
      */
-    public static String getCurrentDate()
-    {
+    public static String getCurrentDate() {
         Calendar cal = Calendar.getInstance();
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
         int year = cal.get(Calendar.YEAR);
         return dateToString(month, day, year);
+    }
+
+    /**
+     * @param timeslots - list of timeslots in integer form
+     * @param format - 12h/24h format boolean
+     * @return concatenated string of timeslot list
+     */
+    public static String getTimeString(List<Integer> timeslots, boolean format) {
+        // Sort it
+        Collections.sort(timeslots);
+
+        String timestring = "";
+
+        int prevTime = -1;
+        int workingTimeslot = -1;
+        for(Integer slot : timeslots) {
+            if (workingTimeslot == -1) {// First iteration
+                workingTimeslot = slot;
+            } else if (slot != prevTime + 1) {
+                // Make time with workingtimeslot and prevTime
+                timestring = timestring + toTime(workingTimeslot, format) + "-" + toTime(prevTime + 1, format) + ", ";
+                workingTimeslot = slot;
+            }
+            prevTime = slot;
+        }
+        if (workingTimeslot != -1) {
+            // At the end finish out the working slot.
+            timestring = timestring + toTime(workingTimeslot, format) + "-" + toTime((prevTime + 1) % 48, format);
+        }
+        if (workingTimeslot == 0 && prevTime == 47) timestring = "ALL DAY LONG";
+
+        return timestring;
     }
 
 }

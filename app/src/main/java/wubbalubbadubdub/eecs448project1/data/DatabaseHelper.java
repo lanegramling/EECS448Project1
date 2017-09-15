@@ -33,6 +33,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Delete all tables
         db.execSQL(DBContract.UserTable.DROP_TABLE);
+        db.execSQL(DBContract.EventTable.DROP_TABLE);
+        db.execSQL(DBContract.SignupTable.DROP_TABLE);
         onCreate(db);
     }
 
