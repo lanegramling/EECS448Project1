@@ -17,6 +17,7 @@ Members: Damian Vu, Dustin Bingham, Lane Gramling
 - ~~Display list of users from database~~ **DONE!**
 - ~~Add ability to create users~~ **DONE!**
 - ~~Selecting a user takes you to ListActivity~~ **DONE!**
+- ~~Proper username validation~~ **DONE!!**
 - Add ability to delete users (out-of-scope)
 
 ##### ListActivity
