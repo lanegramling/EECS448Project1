@@ -69,10 +69,11 @@ public class AddEventActivity extends Activity {
         int day = date[1];
         int year = date[2];
 
+        //Now set the default date to today thru this init method I found
         datePicker.init(year, month, day, new OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker dp, int y, int m, int d) {
-                clearTimeslotTable();
+                //clearTimeslotTable(); ENABLE TO RESET TIMESLOTS UPON DATE SWITCH
             }
         });
 
@@ -132,8 +133,8 @@ public class AddEventActivity extends Activity {
     }
 
     /**
-     * clear timeslot table - used when changing date to avoid allowing events
-     * to span multiple days.
+     * clear timeslot table - originally wrote for onDateChangedListener, realized it's probably
+     * unnecessary but keeping it in case we want it for anything else, e.g. a 'clear times' button
      */
     private void clearTimeslotTable() {
 

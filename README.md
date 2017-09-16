@@ -38,8 +38,8 @@ Members: Damian Vu, Dustin Bingham, Lane Gramling
   - Display availability and timeslot boxes
   
 ##### AddEventActivity
-- Date picking widget for the day of the year (restrict to only today + future days???)
-- Gray out (disable) timeslots of times that have already passed if Today is chosen date?
+- ~~Date picking widget for the day of the year (restrict to only today + future days???)~~ **DONE!**
+- Gray out (disable) timeslots of times that have already passed if Today is chosen date? (out-of-scope)?
 - ~~Ability to select timeslots in which the event will occur~~ **DONE!**
 - ~~24hr Time Toggle~~ **DONE!**
 - Hook into database
