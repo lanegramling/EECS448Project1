@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 
+import wubbalubbadubdub.eecs448project1.data.DatabaseHelper;
 import wubbalubbadubdub.eecs448project1.data.Event;
 import wubbalubbadubdub.eecs448project1.data.HelperMethods; //For toTime() method
 
@@ -32,6 +33,7 @@ import wubbalubbadubdub.eecs448project1.data.HelperMethods; //For toTime() metho
  */
 public class AddEventActivity extends Activity {
 
+    private DatabaseHelper dbHelper;
     private Toast statusMessage;
 
     private String currentUser;
@@ -46,6 +48,9 @@ public class AddEventActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
+
+        dbHelper = new DatabaseHelper(getApplicationContext());
+        statusMessage = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 
         Intent intent = getIntent();
         currentUser = intent.getStringExtra("currentUser");
@@ -63,8 +68,8 @@ public class AddEventActivity extends Activity {
         int day = date[1];
         int year = date[2];
         datePicker.updateDate(year, month - 1, day);
+        datePicker.setMinDate(System.currentTimeMillis() - 1000);
 
-        statusMessage = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 
     }
 
@@ -165,22 +170,30 @@ public class AddEventActivity extends Activity {
     }
 
     boolean verify(Event e) {
-        //conditions for false:
-        // eventName not  within parameters
-        // eventDate is a valid date
-        //no timeSlots selected
 
+        //Dates should have no way of being invalid
+
+        //Name verification
         if (e.getName().isEmpty()) {
-
-        } else if (!e.getName().matches("[a-zA-Z0-9\\s]+")) {
-
+            statusMessage.setText("ERROR: Please name your event!");
+            return false;
+        } else if (!e.getName().matches("[a-zA-Z0-9\\s]+")) {  // TODO establish rules for event names. apostrophes? etc. (e.g. "Lane's b-day")
+            statusMessage.setText("ERROR: Event name has invalid characters!");
+            return false;
         }
 
+        //Timeslot verification
+        if (e.getTimeslots().isEmpty()) {
+            statusMessage.setText("ERROR: Please choose times for your event!");
+            return false;
+        }
+
+        //Check if user is already signed up for any conflicting events
+        /*pseudo: if intersection of list currentuser.signups.timeslots with list e.timeslots
+         * is nonempty, -> conflict found, return false*/
 
 
-
-
-        return (true); //will be changed later
+        return true;
     }
 
     /**
@@ -209,8 +222,9 @@ public class AddEventActivity extends Activity {
 
         if (verify(e)){
 
-            String userDate = HelperMethods.dateToString(day, month, year);
-            //to-do add user date info to database
+            //TODO add event to db
+
+            statusMessage.setText("Your event has been created.");
         }
         else{
             //tell user there has been an error and let user fill out text boxes again
