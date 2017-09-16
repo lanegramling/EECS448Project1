@@ -13,6 +13,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.graphics.Color;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -30,6 +31,8 @@ import wubbalubbadubdub.eecs448project1.data.HelperMethods; //For toTime() metho
  * This Class allows the user to create an event and select timeslots for the event created
  */
 public class AddEventActivity extends Activity {
+
+    private Toast statusMessage;
 
     private String currentUser;
     private List<Integer> selectedTimeslots;
@@ -53,7 +56,7 @@ public class AddEventActivity extends Activity {
 
         createTimeslotTable();
 
-        //Set Date Picker to current date
+        //Set Date Picker to current date, datePicker constraints etc.
         int[] date = HelperMethods.getCurrentDate();
         DatePicker datePicker = (DatePicker) findViewById(R.id.datePicker);
         int month = date[0];
@@ -61,8 +64,7 @@ public class AddEventActivity extends Activity {
         int year = date[2];
         datePicker.updateDate(year, month - 1, day);
 
-
-
+        statusMessage = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 
     }
 
@@ -168,6 +170,11 @@ public class AddEventActivity extends Activity {
         // eventDate is a valid date
         //no timeSlots selected
 
+        if (e.getName().isEmpty()) {
+
+        } else if (!e.getName().matches("[a-zA-Z0-9\\s]+")) {
+
+        }
 
 
 
@@ -192,7 +199,7 @@ public class AddEventActivity extends Activity {
         EditText nameText = (EditText) findViewById(R.id.textName);
         String name = nameText.getText().toString();
 
-        //Listify timeslots in int format for storage in db
+        //Stringify timeslot list in int format for storage in db
         String timeslotIntList = HelperMethods.stringifyTimeslotInts(selectedTimeslots);
 
         //Create an event, attempt to verify it, and send to db if all is well

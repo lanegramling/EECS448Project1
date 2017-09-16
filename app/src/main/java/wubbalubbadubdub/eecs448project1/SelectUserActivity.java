@@ -75,7 +75,8 @@ public class SelectUserActivity extends Activity {
      */
     public void addUser(View v) {
         EditText textbox = (EditText) findViewById(R.id.newUsername);
-        String name = textbox.getText().toString();
+        String name = textbox.getText().toString().trim(); //removes any lead/trailing spaces as well
+
 
         if (isValidName(name)) statusMessage.setText(name + " was added to the list of users");
         statusMessage.show();
@@ -94,7 +95,7 @@ public class SelectUserActivity extends Activity {
         if (TextUtils.isEmpty(name)){                    //Empty name
             statusMessage.setText("ERROR: Please input a name for the new user");
             return false;
-        } else if (!name.matches("[a-zA-Z]+")) {    //Non a-z characters in name
+        } else if (!name.matches("[a-zA-Z\\s]+")) {    //Non a-z characters in name
             statusMessage.setText("ERROR: Name contains invalid characters");
             return false;
         } else if (dbHelper.addUser(name) == -1) {       //name already exists
