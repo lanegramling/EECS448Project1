@@ -196,6 +196,8 @@ public class AddEventActivity extends Activity {
         String timeslotIntList = HelperMethods.stringifyTimeslotInts(selectedTimeslots);
 
         //Create an event, attempt to verify it, and send to db if all is well
+        /*Event ID is set to -1 because it's useless until a real ID is assigned
+         *by the primary key upon insertion to the database after successful verification.*/
         Event e = new Event(-1, date, name, currentUser, timeslotIntList);
 
         if (verify(e)){
