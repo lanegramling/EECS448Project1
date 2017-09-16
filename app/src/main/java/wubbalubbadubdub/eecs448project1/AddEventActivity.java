@@ -200,7 +200,7 @@ public class AddEventActivity extends Activity {
         }
 
         //Check if user is already signed up for any conflicting events
-        /*pseudo: if intersection of list currentuser.signups.timeslots with list e.timeslots
+        /*pseudo: if intersection of (currentuser.signups.timeslots) list with (e.timeslots) list
          * is nonempty, -> conflict found, return false*/
 
 

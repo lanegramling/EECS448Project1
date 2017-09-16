@@ -85,14 +85,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //endregion
 
+
+
     //region Event Table Methods
 
     /**
      * @param e - Event object passed when the save button is clicked with valid event params
      * @since 1.0
      */
-    public void addEvent(Event e) { // TODO create entry in event table for given event
+    public long addEvent(Event e) { // TODO create entry in event table for given event
 
+        //This is my attempt (Lane), I have no verification that it works
+        SQLiteDatabase db = this.getWritableDatabase(); // is this okay?
+        ContentValues values = new ContentValues();
+
+        values.put(DBContract.EventTable.COLUMN_NAME_TITLE, e.getName());
+        values.put(DBContract.EventTable.COLUMN_NAME_TIMESLOTS, e.getTimeslots());
+        values.put(DBContract.EventTable.COLUMN_NAME_CREATOR, e.getCreator());
+        values.put(DBContract.EventTable.COLUMN_NAME_DAY, e.getDate());
+
+        return db.insert(DBContract.EventTable.TABLE_NAME, null, values);
     }
 
     /**
@@ -100,7 +112,45 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @since 1.0
      */
     public Vector<Event> getAllEvents() { // TODO set sortedListOfEvents = all Events in db as objs
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
         Vector<Event> sortedListOfEvents = new Vector<Event>(); // Will be sorted through SQL
+
+        String[] columns = {
+                DBContract.EventTable._ID,
+                DBContract.EventTable.COLUMN_NAME_TITLE,
+                DBContract.EventTable.COLUMN_NAME_TIMESLOTS,
+                DBContract.EventTable.COLUMN_NAME_CREATOR,
+                DBContract.EventTable.COLUMN_NAME_DAY
+        };
+
+        //Sort by day for now. Could hypothetically get weird when multiple years are involved
+        String sortOrder = DBContract.EventTable.COLUMN_NAME_DAY + " COLLATE NOCASE ASC";
+
+        Cursor query = db.query(
+                DBContract.EventTable.TABLE_NAME,
+                columns,
+                null, null, null, null,
+                sortOrder
+        );
+
+        //Populate event vector
+        while (query.moveToNext()) {
+
+            int id;
+            String title, timeslots, creator, day;
+
+            id = Integer.parseInt(query.getString(query.getColumnIndexOrThrow(DBContract.EventTable._ID)));
+            title = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_TITLE));
+            timeslots = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_TIMESLOTS));
+            creator = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_CREATOR));
+            day = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_DAY));
+
+            //Create Event object from row and add to Vector
+            Event e = new Event(id, title, timeslots, creator, day);
+            sortedListOfEvents.add(e);
+        }
 
         return sortedListOfEvents;
     }
@@ -117,6 +167,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     //endregion
+
+
 
     //region Signup Table Methods
 
