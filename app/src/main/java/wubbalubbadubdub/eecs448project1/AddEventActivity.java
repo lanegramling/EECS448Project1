@@ -13,6 +13,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.graphics.Color;
 import android.widget.DatePicker;
+import android.widget.DatePicker.OnDateChangedListener;
 import android.widget.Toast;
 
 
@@ -67,8 +68,17 @@ public class AddEventActivity extends Activity {
         int month = date[0];
         int day = date[1];
         int year = date[2];
-        datePicker.updateDate(year, month - 1, day);
+
+        datePicker.init(year, month, day, new OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker dp, int y, int m, int d) {
+                clearTimeslotTable();
+            }
+        });
+
         datePicker.setMinDate(System.currentTimeMillis() - 1000);
+        //Can set up to 14 days in advance. (30 days resulted in overflow as int was >2^31) (keep or nah?)
+        datePicker.setMaxDate(System.currentTimeMillis() + (1000*60*60*24*14));
 
 
     }
@@ -121,12 +131,26 @@ public class AddEventActivity extends Activity {
         }
     }
 
-    private void updateTimeDisplay() {
-        TextView timeDisplay = (TextView) findViewById(R.id.tvSelectedTimes);
+    /**
+     * clear timeslot table - used when changing date to avoid allowing events
+     * to span multiple days.
+     */
+    private void clearTimeslotTable() {
 
-        String disp = "Event Timeframe: " + HelperMethods.getTimeString(selectedTimeslots, format);
+        selectedTimeslots.clear();
 
-        timeDisplay.setText(disp);
+        TableLayout tableLayout = (TableLayout) findViewById(R.id.tbLayout);
+        int count = 0;
+        for (int i = 0; i < 4; i++) {
+            TableRow row = (TableRow)tableLayout.getChildAt(i);
+            for (int j = 0; j < 12; j++) {
+                Button b = (Button) row.getChildAt(j);
+                b.setBackgroundColor(GREEN_MAT);
+                count++;
+            }
+        }
+        updateTimeDisplay();
+
     }
 
     public void toggleFormat(View v) {
@@ -147,26 +171,12 @@ public class AddEventActivity extends Activity {
 
     }
 
-    /**
-     * @param v - view passed from tbTimeFormat's onClick event
-     * @since 1.0
-     */
-    public void formatTimes(View v) {
+    private void updateTimeDisplay() {
+        TextView timeDisplay = (TextView) findViewById(R.id.tvSelectedTimes);
 
-        format = !format;
+        String disp = "Event Timeframe: " + HelperMethods.getTimeString(selectedTimeslots, format);
 
-        //Loop through table and update the text on each button
-        int count = 0;
-        TableLayout layout = (TableLayout) findViewById(R.id.tbLayout);
-        for (int i = 0; i < 4; i++) {
-            TableRow tr = (TableRow)layout.getChildAt(i);
-            for (int j = 0; j < 12; j++) {
-                Button b = (Button)tr.getChildAt(j);
-                b.setText(HelperMethods.toTime(count,format));
-                count++;
-            }
-        }
-
+        timeDisplay.setText(disp);
     }
 
     boolean verify(Event e) {
