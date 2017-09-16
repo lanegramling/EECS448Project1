@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 
+import wubbalubbadubdub.eecs448project1.data.Event;
 import wubbalubbadubdub.eecs448project1.data.HelperMethods; //For toTime() method
 
 /**
@@ -160,7 +162,7 @@ public class AddEventActivity extends Activity {
 
     }
 
-    boolean verify() {
+    boolean verify(Event e) {
         //conditions for false:
         // eventName not  within parameters
         // eventDate is a valid date
@@ -170,20 +172,34 @@ public class AddEventActivity extends Activity {
 
 
 
+
         return (true); //will be changed later
     }
 
+    /**
+     * onButtonClick() - Handles Save button - creates event object, verifies, and adds event
+     */
     void onButtonClick() {
-        //will run verify function and check for trueness
-        //if verify returns true, we can push the information given in the AddEventActivity class
-        //to the database
-        if (verify()){
-            //found this block of code on
-            // https://stackoverflow.com/questions/6421874/how-to-get-the-date-from-the-datepicker-widget-in-android
-            DatePicker datePicker = (DatePicker) findViewById(R.id.datePicker);
-            int day = datePicker.getDayOfMonth();
-            int month = datePicker.getMonth() + 1;
-            int year = datePicker.getYear();
+
+        //Build date string for event
+        DatePicker datePicker = (DatePicker) findViewById(R.id.datePicker);
+        int month = datePicker.getMonth() + 1;
+        int day = datePicker.getDayOfMonth();
+        int year = datePicker.getYear();
+        String date = HelperMethods.dateToString(month, day, year);
+
+        //get name of event
+        EditText nameText = (EditText) findViewById(R.id.textName);
+        String name = nameText.getText().toString();
+
+        //Listify timeslots in int format for storage in db
+        String timeslotIntList = HelperMethods.stringifyTimeslotInts(selectedTimeslots);
+
+        //Create an event, attempt to verify it, and send to db if all is well
+        Event e = new Event(-1, date, name, currentUser, timeslotIntList);
+
+        if (verify(e)){
+
             String userDate = HelperMethods.dateToString(day, month, year);
             //to-do add user date info to database
         }

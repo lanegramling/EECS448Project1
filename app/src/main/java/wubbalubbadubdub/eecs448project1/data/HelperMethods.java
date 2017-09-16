@@ -1,5 +1,6 @@
 package wubbalubbadubdub.eecs448project1.data;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -102,6 +103,33 @@ public class HelperMethods {
         if (workingTimeslot == 0 && prevTime == 47) timestring = "ALL DAY LONG";
 
         return timestring;
+    }
+
+
+    /**
+     * Counterpart to listifyTimeslotInts (list->String)
+     * @param timeslotInts - List of timeslots in integer form
+     * @return comma separated list of timeslots as a String for storage in db
+     */
+    public static String stringifyTimeslotInts(List<Integer> timeslotInts) {
+        //Build string -- will look like "0,1,2,4,5" for example
+        String stringList = "";
+        for (Integer slot : timeslotInts)
+            stringList += (timeslotInts.indexOf(slot) != (timeslotInts.size() - 1)) ? (slot + ",") : slot;
+        return stringList;
+    }
+
+    /**
+     * Counterpart to stringifyTimeslotInts (String->list)
+     * @param timeslotString - comma separated String list formatted for storage in db
+     * @return List of timeslots in integer form
+     */
+    public static List<Integer> listifyTimeslotInts(String timeslotString) {
+        List<Integer> timeslotInts = new ArrayList<>();
+        for (int i = 0; i < timeslotString.length(); i++)
+            if (Character.isDigit(timeslotString.charAt(i)))
+                timeslotInts.add(Character.getNumericValue(i));
+        return timeslotInts;
     }
 
 }
