@@ -39,6 +39,7 @@ Members: Damian Vu, Dustin Bingham, Lane Gramling
   
 ##### AddEventActivity
 - Date picking widget for the day of the year (restrict to only today + future days???)
+- Gray out (disable) timeslots of times that have already passed if Today is chosen date?
 - ~~Ability to select timeslots in which the event will occur~~ **DONE!**
 - ~~24hr Time Toggle~~ **DONE!**
 - Hook into database
