@@ -33,7 +33,7 @@ public class HelperMethods {
 
         String time = hour + ":" + min; //Build time string
         time = (format && (hour < 10)) ? ("0" + time) : time; //Add leading zero if needed in 24h format
-        if (!format) time = (timeslot < 24) ? time + "AM" : time + "PM"; // AM/PM for 12h format
+        if (!format) time = (timeslot < 24) ? time + "am" : time + "pm"; // AM/PM for 12h format
 
         return time;
     }

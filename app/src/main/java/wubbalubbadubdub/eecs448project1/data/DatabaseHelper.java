@@ -88,22 +88,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //region Event Table Methods
 
     /**
-     *
+     * @param e - Event object passed when the save button is clicked with valid event params
+     * @since 1.0
+     */
+    public void addEvent(Event e) { // TODO create entry in event table for given event
+
+    }
+
+    /**
      * @return A sorted Vector of Events from the Database
      * @since 1.0
      */
-    public Vector<Event> getAllEvents() {
+    public Vector<Event> getAllEvents() { // TODO set sortedListOfEvents = all Events in db as objs
         Vector<Event> sortedListOfEvents = new Vector<Event>(); // Will be sorted through SQL
 
         return sortedListOfEvents;
     }
 
     /**
-     *
      * @param eventID ID of event in Table
      * @return String of timeslots for a given event ID
      */
-    public String getTimeslots(int eventID) {
+    public String getTimeslots(int eventID) { // TODO return timeslots cell for a given eventID from db
+        //Q: Will the timeslots need to be parsed into (contiguous-concatenated) time format here?
+
 
         return "";
     }
@@ -111,6 +119,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //endregion
 
     //region Signup Table Methods
+
+    public void addSignup(int eventID, String user) {// TODO create entry in signups table
+        //Q: Should we pass an eventID or an Event object?
+
+    }
+
+    public List<String> getSignups(int eventID) { // TODO return list of signed up users(?) for given event
+        //Q: Are we returning a list of users or something else?
+        //Q: Should we pass an eventID or an Event object?
+        List<String> dummyreturn = new ArrayList<>();
+
+        return dummyreturn;
+    }
+
+
 
     //endregion
 }

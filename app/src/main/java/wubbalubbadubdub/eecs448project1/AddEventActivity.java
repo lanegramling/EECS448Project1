@@ -33,6 +33,10 @@ public class AddEventActivity extends Activity {
     private List<Integer> selectedTimeslots;
     private boolean format = false; //Time format: false=12h | true=24h
 
+    //Color Variables - Material Design
+    int BLUE_MAT = Color.rgb(2,136,209);
+    int GREEN_MAT = Color.rgb(139,195,74);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +50,7 @@ public class AddEventActivity extends Activity {
         selectedTimeslots = new ArrayList<>();
 
         createTimeslotTable();
+
         //Set Date Picker to current date
         int[] date = HelperMethods.getCurrentDate();
         DatePicker datePicker = (DatePicker) findViewById(R.id.datePicker);
@@ -73,7 +78,7 @@ public class AddEventActivity extends Activity {
                 TableRow.LayoutParams cellParams = new TableRow.LayoutParams();
                 cellParams.rightMargin = 5;
                 b.setLayoutParams(cellParams);
-                b.setBackgroundColor(Color.RED);
+                b.setBackgroundColor(GREEN_MAT);
                 b.setOnClickListener(new Button.OnClickListener() {
                     int id = current;
                     boolean selected = false;
@@ -82,11 +87,11 @@ public class AddEventActivity extends Activity {
                     public void onClick(View v) {
                         Button obj = (Button) v;
                         if (selected) {
-                            obj.setBackgroundColor(Color.RED);
+                            obj.setBackgroundColor(GREEN_MAT);
                             selectedTimeslots.remove(Integer.valueOf(id));
                             selected = false;
                         } else {
-                            obj.setBackgroundColor(Color.GREEN);
+                            obj.setBackgroundColor(BLUE_MAT);
                             selectedTimeslots.add(id);
                             selected = true;
                         }
