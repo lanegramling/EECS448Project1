@@ -48,6 +48,11 @@ public class ListActivity extends Activity {
 
     private void populateEventTable() {
         TableLayout layout = (TableLayout) findViewById(R.id.eventTableLayout);
+        TableLayout.LayoutParams tableRowParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
+
+        tableRowParams.setMargins(10, 2, 10, 2);
+
+
 
         ArrayList<Event> events = dbHelper.getAllEvents();
 
@@ -58,14 +63,32 @@ public class ListActivity extends Activity {
 
             Event workingEvent = events.get(i);
 
+            String creator = "Created by " + workingEvent.getCreator();
+
+
+            TableRow.LayoutParams tvLayout = new TableRow.LayoutParams();
+
+            tvLayout.setMargins(0, 5, 10, 5);
+
             TextView eventName = new TextView(this);
             TextView eventCreator = new TextView(this);
             TextView eventDay = new TextView(this);
             TextView eventTimeslots = new TextView(this);
 
-            eventName.setText(workingEvent.getName());
-            eventCreator.setText(workingEvent.getCreator());
+            eventName.setLayoutParams(tvLayout);
+            eventCreator.setLayoutParams(tvLayout);
+            eventDay.setLayoutParams(tvLayout);
+            eventTimeslots.setLayoutParams(tvLayout);
+
+            eventName.setTextSize(20);
+            eventCreator.setTextSize(20);
+            eventDay.setTextSize(20);
+            eventTimeslots.setTextSize(20);
+
+
+            eventCreator.setText(creator);
             eventDay.setText(workingEvent.getDate());
+            eventName.setText(workingEvent.getName());
             eventTimeslots.setText(workingEvent.getTimeslots());
 
             row.addView(eventName);
@@ -73,7 +96,9 @@ public class ListActivity extends Activity {
             row.addView(eventDay);
             row.addView(eventTimeslots);
 
-            layout.addView(row);
+            row.setLayoutParams(tableRowParams);
+
+            layout.addView(row, tableRowParams);
 
         }
     }
@@ -82,7 +107,7 @@ public class ListActivity extends Activity {
         //Button addEvent = (Button) findViewById(R.id.addEvent);
         Intent intent = new Intent(this, AddEventActivity.class);
         intent.putExtra("currentUser", currentUser);
-
+        finish();
         startActivity(intent);
     }
 }
