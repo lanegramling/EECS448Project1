@@ -111,11 +111,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return A sorted Vector of Events from the Database
      * @since 1.0
      */
-    public Vector<Event> getAllEvents() { // TODO set sortedListOfEvents = all Events in db as objs
+    public ArrayList<Event> getAllEvents() { // TODO set sortedListOfEvents = all Events in db as objs
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Vector<Event> sortedListOfEvents = new Vector<Event>(); // Will be sorted through SQL
+        ArrayList<Event> sortedListOfEvents = new ArrayList<>(); // Will be sorted through SQL
 
         String[] columns = {
                 DBContract.EventTable._ID,
