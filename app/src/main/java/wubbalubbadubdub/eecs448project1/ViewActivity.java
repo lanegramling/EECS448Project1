@@ -10,9 +10,11 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import wubbalubbadubdub.eecs448project1.data.DatabaseHelper;
 import wubbalubbadubdub.eecs448project1.data.Event;
@@ -31,6 +33,12 @@ public class ViewActivity extends Activity {
     private List<Integer> currentTimeslots;
     private List<Integer> selectedTimeslots;
 
+    private Map<String, String> userSignups;
+
+    private Toast statusMessage;
+
+    private boolean prevSignup;
+
     //Color Variables - Material Design
     int BLUE_MAT = Color.rgb(2,136,209);
     int GREEN_MAT = Color.rgb(139,195,74);
@@ -43,6 +51,8 @@ public class ViewActivity extends Activity {
         Intent intent = getIntent();
         currentID = intent.getIntExtra("eventID", -1);
         currentUser = intent.getStringExtra("currentUser");
+
+        statusMessage = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 
         dbHelper = new DatabaseHelper(getApplicationContext());
 
@@ -61,11 +71,18 @@ public class ViewActivity extends Activity {
         currentTimeslots = HelperMethods.listifyTimeslotInts(currentEvent.getTimeslots());
         selectedTimeslots = new ArrayList<>();
 
+        userSignups = dbHelper.getSignups(currentID);
+
+        prevSignup = userSignups.containsKey(currentUser);
+
         if (currentUser.equals(currentEvent.getCreator())) {
             // View event status
             displayEventSignups();
+
+            ((Button)findViewById(R.id.btnSave)).setVisibility(View.GONE);
         } else {
             // Set availability
+
 
             populateTimeslotTable();
         }
@@ -74,6 +91,10 @@ public class ViewActivity extends Activity {
 
     private void populateTimeslotTable() {
         TableLayout layout = (TableLayout) findViewById(R.id.tbLayout);
+
+        List<Integer> currentUserSelection = (prevSignup) ? HelperMethods.listifyTimeslotInts(userSignups.get(currentUser)) : null;
+
+        if (prevSignup) selectedTimeslots = currentUserSelection;
 
         int count = 0;
         for (int i = 0; i < 4; i++) {
@@ -87,10 +108,18 @@ public class ViewActivity extends Activity {
                 cellParams.rightMargin = 5;
                 b.setLayoutParams(cellParams);
                 if (currentTimeslots.contains(count)) {
-                    b.setBackgroundColor(GREEN_MAT);
+                    boolean intSelect = false;
+                    if (currentUserSelection != null && currentUserSelection.contains(Integer.valueOf(count))) {
+                        intSelect = true;
+                        b.setBackgroundColor(BLUE_MAT);
+                    } else {
+                        b.setBackgroundColor(GREEN_MAT);
+                    }
+                    final boolean select = intSelect;
+
                     b.setOnClickListener(new Button.OnClickListener() {
                         int id = current;
-                        boolean selected = false;
+                        boolean selected = select;
 
                         @Override
                         public void onClick(View v) {
@@ -118,13 +147,32 @@ public class ViewActivity extends Activity {
 
             tr.setLayoutParams(tableRowParams);
 
-
             layout.addView(tr, tableRowParams);
         }
+        updateTimeDisplay();
     }
 
     private void displayEventSignups() {
 
+    }
+
+    public void saveSelection(View v) {
+        if (prevSignup) {
+            // User has signed up previously, so call the update method
+            if (dbHelper.updateSignup(currentID, currentUser, selectedTimeslots) > 0) {
+                statusMessage.setText("Successfully saved your availability");
+            } else {
+                statusMessage.setText("Something went wrong");
+            }
+        } else {
+            // User has not signed up before, so call the insert method
+            if (dbHelper.addSignup(currentID,currentUser,selectedTimeslots) != -1) {
+                statusMessage.setText("Successfully saved your availability");
+            } else {
+                statusMessage.setText("Somethign went wrong");
+            }
+        }
+        statusMessage.show();
     }
 
     private void updateTimeDisplay() {

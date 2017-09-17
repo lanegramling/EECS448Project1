@@ -130,7 +130,9 @@ public class HelperMethods {
         List<Integer> timeslotInts = new ArrayList<>();
 
         timeslotStrs = Arrays.asList(timeslotString.split("\\s*,\\s*")); //Regex to interpret CSVs
-        for (String slot : timeslotStrs) timeslotInts.add(Integer.parseInt(slot));
+        if (!timeslotString.isEmpty()) {
+            for (String slot : timeslotStrs) timeslotInts.add(Integer.parseInt(slot));
+        }
 
         return timeslotInts;
     }
