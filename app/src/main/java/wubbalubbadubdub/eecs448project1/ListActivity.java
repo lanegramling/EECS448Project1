@@ -14,6 +14,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import wubbalubbadubdub.eecs448project1.data.DatabaseHelper;
@@ -32,7 +33,6 @@ public class ListActivity extends Activity {
 
     private DatabaseHelper dbHelper;
     private String currentUser;
-    private ListView eventList;
 
     final int BLUE_MAT = Color.rgb(2,136,209); //For dolling up the event titles
     final int LIGHT_BG = Color.rgb(201, 221, 255);
@@ -47,7 +47,6 @@ public class ListActivity extends Activity {
         setContentView(R.layout.activity_list);
 
         dbHelper = new DatabaseHelper(getApplicationContext());
-        eventList = (ListView) findViewById(R.id.lvEvents);
 
         Intent intent = getIntent();
         currentUser = intent.getStringExtra("currentUser");
@@ -88,8 +87,9 @@ public class ListActivity extends Activity {
         populateEventTable();
     }
 
-    /*TODO found bug: if attempting to show own events right after creating a new
-     *event and multiple users have events, app crashes.*/
+    /**
+     * Populates event table
+     */
     private void populateEventTable() {
         TableLayout layout = (TableLayout) findViewById(R.id.eventTableLayout);
         TableLayout.LayoutParams tableRowParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT);
@@ -102,6 +102,7 @@ public class ListActivity extends Activity {
 
         tableRowParams.setMargins(10, 2, 10, 2);
         ArrayList<Event> events = (allEvents) ? dbHelper.getAllEvents() : dbHelper.getUserEvents(currentUser);
+        Collections.sort(events);
 
         int numberOfEvents = events.size();
         int rowBG = 1;
@@ -154,6 +155,22 @@ public class ListActivity extends Activity {
             row.addView(eventTimeslots);
 
             row.setLayoutParams(tableRowParams);
+
+            final int workingEventID = workingEvent.getID();
+
+            row.setOnClickListener(new View.OnClickListener() {
+                int id = workingEventID;
+
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), ViewActivity.class);
+                    intent.putExtra("currentUser", currentUser);
+                    intent.putExtra("eventID", id);
+
+                    startActivity(intent);
+                }
+            });
+
 
             layout.addView(row, tableRowParams);
             rowBG++;

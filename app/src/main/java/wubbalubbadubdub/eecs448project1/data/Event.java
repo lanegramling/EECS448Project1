@@ -8,7 +8,7 @@ package wubbalubbadubdub.eecs448project1.data;
  *
  * Event DataType for keeping track of events
  */
-public class Event {
+public class Event implements Comparable<Event> {
 
     private int id;
     private String date;
@@ -22,6 +22,21 @@ public class Event {
         date = inputDate;
         creator = inputCreator;
         timeslots = inputTimeslots;
+    }
+
+    public int compareTo(Event otherEvent) {
+        int[] currentDate = HelperMethods.getMonthDayYear(date);
+        int[] otherDate = HelperMethods.getMonthDayYear(otherEvent.getDate());
+
+        if (currentDate[2] == otherDate[2]) {
+            if (currentDate[0] == otherDate[0]) {
+                return currentDate[1] - otherDate[1];
+            } else {
+                return currentDate[0] - otherDate[0];
+            }
+        } else {
+            return currentDate[2] - otherDate[2];
+        }
     }
 
     // We will probably not need setters.

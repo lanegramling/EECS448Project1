@@ -135,4 +135,12 @@ public class HelperMethods {
         return timeslotInts;
     }
 
+    public static int[] getMonthDayYear(String eventDateString) {
+        String[] mmddyyyy = eventDateString.split("/");
+
+        int[] returnArray = {Integer.parseInt(mmddyyyy[0]), Integer.parseInt(mmddyyyy[1]), Integer.parseInt(mmddyyyy[2])};
+
+        return returnArray;
+    }
+
 }
