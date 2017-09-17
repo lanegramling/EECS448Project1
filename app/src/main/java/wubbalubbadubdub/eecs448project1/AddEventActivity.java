@@ -237,6 +237,7 @@ public class AddEventActivity extends Activity {
             statusMessage.setText("Your event has been created.");
             statusMessage.show();
             Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+            intent.putExtra("currentUser", currentUser);
             finish();
             startActivity(intent);
 
