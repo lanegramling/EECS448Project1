@@ -111,7 +111,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return A sorted Vector of Events from the Database
      * @since 1.0
      */
-    public Vector<Event> getAllEvents() { // TODO set sortedListOfEvents = all Events in db as objs
+    public Vector<Event> getAllEvents() {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -156,14 +156,82 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Get events from given user.
+     * @param user - Username to retrieve events for.
+     * @return Sorted Event vector of a given user's created events
+     */
+    public Vector<Event> getUserEvents(String user) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Vector<Event> sortedListOfEvents = new Vector<Event>(); // Will be sorted through SQL
+
+        String[] userArr = {user}; //(Needs to be in an array to use as a WHERE argument)
+
+        String[] columns = {
+                DBContract.EventTable._ID,
+                DBContract.EventTable.COLUMN_NAME_TITLE,
+                DBContract.EventTable.COLUMN_NAME_TIMESLOTS,
+                DBContract.EventTable.COLUMN_NAME_CREATOR,
+                DBContract.EventTable.COLUMN_NAME_DAY
+        };
+
+        //Sort by day for now. Could hypothetically get weird when multiple years are involved
+        String sortOrder = DBContract.EventTable.COLUMN_NAME_DAY + " COLLATE NOCASE ASC";
+
+        Cursor query = db.query(
+                DBContract.EventTable.TABLE_NAME,
+                columns,
+                "creator = ?", userArr, null, null,
+                sortOrder
+        );
+
+        //Populate event vector
+        while (query.moveToNext()) {
+
+            int id;
+            String title, timeslots, creator, day;
+
+            id = Integer.parseInt(query.getString(query.getColumnIndexOrThrow(DBContract.EventTable._ID)));
+            title = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_TITLE));
+            timeslots = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_TIMESLOTS));
+            creator = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_CREATOR));
+            day = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_DAY));
+
+            //Create Event object from row and add to Vector
+            Event e = new Event(id, title, timeslots, creator, day);
+            sortedListOfEvents.add(e);
+        }
+
+        return sortedListOfEvents;
+    }
+
+    /**
      * @param eventID ID of event in Table
      * @return String of timeslots for a given event ID
      */
     public String getTimeslots(int eventID) { // TODO return timeslots cell for a given eventID from db
-        //Q: Will the timeslots need to be parsed into (contiguous-concatenated) time format here?
 
+        SQLiteDatabase db = this.getReadableDatabase();
 
-        return "";
+        String requestedTimeslots;
+        String eidAsStr = String.valueOf(eventID);
+
+        String[] eventIDArr = {eidAsStr}; //(Needs to be in an array to use as a WHERE argument)
+
+        String[] columns = {
+                DBContract.EventTable._ID,
+                DBContract.EventTable.COLUMN_NAME_TIMESLOTS,
+        };
+
+        Cursor query = db.query(
+                DBContract.EventTable.TABLE_NAME,
+                columns,
+                "creator = ?", eventIDArr, null, null,
+                null
+        );
+
+        requestedTimeslots = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_TIMESLOTS));
+        return requestedTimeslots;
     }
 
     //endregion
