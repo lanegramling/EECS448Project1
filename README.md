@@ -10,7 +10,7 @@ Members: Damian Vu, Dustin Bingham, Lane Gramling
 - ~~Implement Database 1.0 Schema in DBContract~~ **DONE!**
 - ~~Dummy method implementation~~ **DONE!**
 - ~~Implement User Table methods~~ **DONE!**
-- Implement Event Table methods
+- ~~Implement Event Table methods~~ **DONE!**
 - Implement Signup Table methods
 
 ##### SelectUserActivity
@@ -21,11 +21,11 @@ Members: Damian Vu, Dustin Bingham, Lane Gramling
 - Add ability to delete users (out-of-scope)
 
 ##### ListActivity
-- Display List of Events from database
-- Toggle User/Admin mode (Switch displayed events)
-- 24hr Time Toggle
-- Add Event button takes you to AddEventAcitivity
-- Selecting an Event takes you to ViewActivity
+- ~~Display List of Events from database~~ **DONE!**
+- ~~Toggle User/Admin mode (Switch displayed events)~~ **DONE!**
+- ~~24hr Time Toggle~~ **DONE!**
+- ~~Add Event button takes you to AddEventAcitivity~~ **DONE!**
+- ~~Selecting an Event takes you to ViewActivity~~ **DONE!**
 - Add ability to sort events (out-of-scope)
 
 ##### ViewActivity
@@ -35,11 +35,11 @@ Members: Damian Vu, Dustin Bingham, Lane Gramling
   - Display event times and users signed up at each timeslot from Signup table
 - User Mode
   - Pull previous availability from Signup table
-  - Display availability and timeslot boxes
+  - ~~Display availability and timeslot boxes~~ **DONE!**
   
 ##### AddEventActivity
 - ~~Date picking widget for the day of the year (restrict to only today + future days???)~~ **DONE!**
 - Gray out (disable) timeslots of times that have already passed if Today is chosen date? (out-of-scope)?
 - ~~Ability to select timeslots in which the event will occur~~ **DONE!**
 - ~~24hr Time Toggle~~ **DONE!**
-- Hook into database
+- ~~Hook into database~~ **DONE!** 21
