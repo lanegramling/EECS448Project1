@@ -210,7 +210,7 @@ public class AddEventActivity extends Activity {
     /**
      * onButtonClick() - Handles Save button - creates event object, verifies, and adds event
      */
-    void onButtonClick() {
+    void onButtonClick(View v) {
 
         //Build date string for event
         DatePicker datePicker = (DatePicker) findViewById(R.id.datePicker);

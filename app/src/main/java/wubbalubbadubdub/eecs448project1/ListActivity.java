@@ -17,6 +17,8 @@ import android.widget.Button;
 
 public class ListActivity extends Activity {
     private String currentUser;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
