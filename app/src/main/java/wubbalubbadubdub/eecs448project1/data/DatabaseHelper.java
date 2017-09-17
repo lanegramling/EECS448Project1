@@ -148,7 +148,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             day = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_DAY));
 
             //Create Event object from row and add to Vector
-            Event e = new Event(id, title, timeslots, creator, day);
+            Event e = new Event(id, day, title, creator, timeslots); // LOL This stuff was in the wrong order... Come on guys...
             sortedListOfEvents.add(e);
         }
 
