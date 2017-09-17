@@ -113,12 +113,11 @@ public class AddEventActivity extends Activity {
                         if (selected) {
                             obj.setBackgroundColor(GREEN_MAT);
                             selectedTimeslots.remove(Integer.valueOf(id));
-                            selected = false;
                         } else {
                             obj.setBackgroundColor(BLUE_MAT);
                             selectedTimeslots.add(id);
-                            selected = true;
                         }
+                        selected = !selected;
                         updateTimeDisplay();
                     }
                 });
