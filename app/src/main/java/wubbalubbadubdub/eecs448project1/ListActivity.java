@@ -34,7 +34,9 @@ public class ListActivity extends Activity {
     private String currentUser;
     private ListView eventList;
 
-    int BLUE_MAT = Color.rgb(2,136,209); //For dolling up the event titles
+    final int BLUE_MAT = Color.rgb(2,136,209); //For dolling up the event titles
+    final int LIGHT_BG = Color.rgb(201, 221, 255);
+    final int DARK_BG = Color.rgb(153, 192, 255);
 
     private boolean allEvents = true; //Determines whether to show all events or own events
 
@@ -102,18 +104,21 @@ public class ListActivity extends Activity {
         ArrayList<Event> events = (allEvents) ? dbHelper.getAllEvents() : dbHelper.getUserEvents(currentUser);
 
         int numberOfEvents = events.size();
-
+        int rowBG = 1;
         for (int i = 0; i < numberOfEvents; i++) {
             TableRow row = new TableRow(this);
 
+            row.setBackgroundColor((rowBG % 2 == 1) ? LIGHT_BG : DARK_BG);
+
             Event workingEvent = events.get(i);
 
-            String creator = "  -- Created by " + workingEvent.getCreator() + ": ";
+            String creator = "Created by " + workingEvent.getCreator() + ": ";
 
 
             TableRow.LayoutParams tvLayout = new TableRow.LayoutParams();
 
-            tvLayout.setMargins(0, 8, 10, 5);
+            tvLayout.setMargins(0, 10, 10, 10);
+
 
             TextView eventName = new TextView(this);
             TextView eventCreator = new TextView(this);
@@ -125,7 +130,12 @@ public class ListActivity extends Activity {
             eventDay.setLayoutParams(tvLayout);
             eventTimeslots.setLayoutParams(tvLayout);
 
-            eventName.setTextSize(22);
+            eventName.setPadding(0, 10, 0, 10);
+            eventCreator.setPadding(0, 10, 0, 10);
+            eventDay.setPadding(0, 10, 0, 10);
+            eventTimeslots.setPadding(0, 10, 0, 10);
+
+            eventName.setTextSize(20);
             eventName.setTypeface(null, Typeface.BOLD);
             eventName.setTextColor(BLUE_MAT);
             eventCreator.setTextSize(20);
@@ -134,9 +144,9 @@ public class ListActivity extends Activity {
 
             //Prettier formatting, convert timeslots into timestring through series of parsing methods
             eventCreator.setText(creator);
-            eventDay.setText("  " + workingEvent.getDate());
-            eventName.setText("  " + workingEvent.getName());
-            eventTimeslots.setText("  " + HelperMethods.getTimeString(HelperMethods.listifyTimeslotInts(workingEvent.getTimeslots()), false));
+            eventDay.setText(workingEvent.getDate());
+            eventName.setText(workingEvent.getName());
+            eventTimeslots.setText(HelperMethods.getTimeString(HelperMethods.listifyTimeslotInts(workingEvent.getTimeslots()), false));
 
             row.addView(eventName);
             row.addView(eventCreator);
@@ -146,6 +156,7 @@ public class ListActivity extends Activity {
             row.setLayoutParams(tableRowParams);
 
             layout.addView(row, tableRowParams);
+            rowBG++;
 
         }
     }
