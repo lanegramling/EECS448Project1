@@ -98,6 +98,7 @@ public class ListActivity extends Activity {
         for (int i = 0; i < layout.getChildCount(); i++) {
             View row = layout.getChildAt(i);
             if (row instanceof TableRow) ((ViewGroup) row).removeAllViews();
+            layout.removeAllViews();
         }
 
         tableRowParams.setMargins(10, 2, 10, 2);
