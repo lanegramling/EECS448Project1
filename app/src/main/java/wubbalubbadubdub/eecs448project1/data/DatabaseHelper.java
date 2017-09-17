@@ -81,6 +81,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             names.add(name);
         }
 
+        query.close();
+
         return names;
     }
 
@@ -152,6 +154,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             sortedListOfEvents.add(e);
         }
 
+        query.close();
+
         return sortedListOfEvents;
     }
 
@@ -202,6 +206,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             sortedListOfEvents.add(e);
         }
 
+        query.close();
+
         return sortedListOfEvents;
     }
 
@@ -230,6 +236,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         );
 
         requestedTimeslots = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_TIMESLOTS));
+
+        query.close();
+
         return requestedTimeslots;
     }
 
