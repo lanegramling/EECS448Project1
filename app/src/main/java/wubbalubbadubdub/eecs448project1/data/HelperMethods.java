@@ -103,6 +103,8 @@ public class HelperMethods {
         }
         if (workingTimeslot == 0 && prevTime == 47) timestring = "ALL DAY LONG";
 
+        if (timestring.isEmpty()) timestring = "NOT AVAILABLE AT ALL";
+
         return timestring;
     }
 
