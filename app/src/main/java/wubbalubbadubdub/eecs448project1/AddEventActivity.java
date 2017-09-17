@@ -204,13 +204,19 @@ public class AddEventActivity extends Activity {
          * is nonempty, -> conflict found, return false*/
 
 
+        //Verifications passed, attempt to add event
+        if (dbHelper.addEvent(e) == -1) {
+            statusMessage.setText("Something went wrong creating your event...");
+            return false;
+        }
+
         return true;
     }
 
     /**
      * onButtonClick() - Handles Save button - creates event object, verifies, and adds event
      */
-    void onButtonClick() {
+    public void onButtonClick(View v) {
 
         //Build date string for event
         DatePicker datePicker = (DatePicker) findViewById(R.id.datePicker);
@@ -231,16 +237,11 @@ public class AddEventActivity extends Activity {
          *by the primary key upon insertion to the database after successful verification.*/
         Event e = new Event(-1, date, name, currentUser, timeslotIntList);
 
-        if (verify(e)){
-
-            //TODO add event to db
+        if (verify(e)){ // (Event is added to db at end of verify() method)
 
             statusMessage.setText("Your event has been created.");
         }
-        else{
-            //tell user there has been an error and let user fill out text boxes again
-        }
-
+        statusMessage.show();
 
     }
 

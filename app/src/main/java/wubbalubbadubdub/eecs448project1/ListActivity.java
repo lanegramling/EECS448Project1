@@ -34,6 +34,7 @@ public class ListActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
@@ -51,6 +52,7 @@ public class ListActivity extends Activity {
     }
 
     private void populateEvents() {
+
         List<Event> events = (allEvents) ? dbHelper.getAllEvents() : dbHelper.getUserEvents(currentUser);
         List<String> eventTitles = new ArrayList<>(); //Titles of events will be shown //TODO subItems to show dates?
 
