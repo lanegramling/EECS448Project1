@@ -15,7 +15,7 @@ import java.util.Vector;
 
 /**
  * DatabaseHelper.java
- * @author Damian
+ * @author Damian, Lane
  * @version 1.0
  * This class contains helper methods that interact with the Database. This replaced the Dataclass
  */
@@ -96,11 +96,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * @param e - Event object passed when the save button is clicked with valid event params
+     * @return event ID
      * @since 1.0
      */
-    public long addEvent(Event e) {
+    public int addEvent(Event e) {
 
-        SQLiteDatabase db = this.getWritableDatabase(); // is this okay?
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(DBContract.EventTable.COLUMN_NAME_TITLE, e.getName());
@@ -108,7 +109,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(DBContract.EventTable.COLUMN_NAME_CREATOR, e.getCreator());
         values.put(DBContract.EventTable.COLUMN_NAME_DAY, e.getDate());
 
-        return db.insert(DBContract.EventTable.TABLE_NAME, null, values);
+        db.insert(DBContract.EventTable.TABLE_NAME, null, values); //Perform insertion
+
+        //Get the ID of the event we just created and return it
+        String[] columns = {DBContract.EventTable._ID};
+        String sortOrder = DBContract.EventTable._ID + " DESC";
+
+
+        Cursor query = db.query(
+                DBContract.EventTable.TABLE_NAME,
+                columns,
+                null, null, null, null,
+                sortOrder
+        );
+        query.moveToNext();
+        int eventID = Integer.parseInt(query.getString(query.getColumnIndexOrThrow(DBContract.EventTable._ID)));
+        query.close();
+
+        return eventID;
     }
 
     /**

@@ -26,7 +26,7 @@ import org.w3c.dom.Text;
 /**
  * This page list all the activities created by other users.
  * Also this page allows the user to add an event which brings them to the AddEvent page
- * @author Dustin
+ * @author Dustin, Lane, Damian
  * @version 1.0
  */
 public class ListActivity extends Activity {
@@ -56,27 +56,6 @@ public class ListActivity extends Activity {
         populateEventTable();
 
     }
-
-
-    /*   ListView version of event display (inferior to table)
-    private void populateEvents() {
-
-        List<Event> events = (allEvents) ? dbHelper.getAllEvents() : dbHelper.getUserEvents(currentUser);
-        List<String> eventTitles = new ArrayList<>(); //Titles of events will be shown //TODO subItems to show dates?
-
-        for (Event e : events) eventTitles.add(e.getName());
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                eventTitles);
-
-        eventList.setAdapter(arrayAdapter);
-
-        //populateEventTable();
-
-    }
-    */
 
     /**
      * Handles All Events toggle button
