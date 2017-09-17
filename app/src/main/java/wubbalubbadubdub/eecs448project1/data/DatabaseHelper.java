@@ -8,7 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 /**
@@ -256,17 +258,61 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return returnEvent;
     }
 
-    public void addSignup(int eventID, String user) {// TODO create entry in signups table
-        //Q: Should we pass an eventID or an Event object?
+    public long addSignup(int eventID, String user, List<Integer> availability) {// TODO create entry in signups table
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        String avail = HelperMethods.stringifyTimeslotInts(availability);
+
+        ContentValues values = new ContentValues();
+        values.put(DBContract.SignupTable.COLUMN_NAME_USER, user);
+        values.put(DBContract.SignupTable.COLUMN_NAME_AVAIL, avail);
+        values.put(DBContract.SignupTable.COLUMN_NAME_EVENT, eventID);
+
+        return db.insert(DBContract.SignupTable.TABLE_NAME, null, values);
     }
 
-    public List<String> getSignups(int eventID) { // TODO return list of signed up users(?) for given event
-        //Q: Are we returning a list of users or something else?
-        //Q: Should we pass an eventID or an Event object?
-        List<String> dummyreturn = new ArrayList<>();
+    public Map<String, String> getSignups(int eventID) { // TODO return list of signed up users(?) for given event
+        SQLiteDatabase db = this.getReadableDatabase();
+        Map<String, String> userSignup = new HashMap<>();
 
-        return dummyreturn;
+        String[] columns = {
+                DBContract.SignupTable.COLUMN_NAME_USER,
+                DBContract.SignupTable.COLUMN_NAME_AVAIL
+        };
+        String[] where = {Integer.toString(eventID)};
+
+        Cursor query = db.query(
+                DBContract.SignupTable.TABLE_NAME,
+                columns,
+                "eid = ?", where, null, null,
+                null
+        );
+
+        while (query.moveToNext()) {
+            userSignup.put(query.getString(query.getColumnIndexOrThrow(DBContract.SignupTable.COLUMN_NAME_USER)),
+                    query.getString(query.getColumnIndexOrThrow(DBContract.SignupTable.COLUMN_NAME_AVAIL)));
+        }
+
+        return userSignup;
+    }
+
+    public int updateSignup(int eventID, String user, List<Integer> availability) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String avail = HelperMethods.stringifyTimeslotInts(availability);
+
+        ContentValues values = new ContentValues();
+        values.put(DBContract.SignupTable.COLUMN_NAME_AVAIL, avail);
+
+        String selection = DBContract.SignupTable.COLUMN_NAME_USER + " = ? AND " + DBContract.SignupTable.COLUMN_NAME_EVENT + " = ?";
+        String[] selectionArgs = {user, Integer.toString(eventID)};
+
+        return db.update(
+                DBContract.SignupTable.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs
+        );
     }
 
 
