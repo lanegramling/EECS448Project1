@@ -233,12 +233,17 @@ public class AddEventActivity extends Activity {
 
         if (verify(e)){
 
-            //TODO add event to db
-
+            dbHelper.addEvent(e);
             statusMessage.setText("Your event has been created.");
+            statusMessage.show();
+            Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+            finish();
+            startActivity(intent);
+
         }
         else{
             //tell user there has been an error and let user fill out text boxes again
+            statusMessage.show();
         }
 
 
