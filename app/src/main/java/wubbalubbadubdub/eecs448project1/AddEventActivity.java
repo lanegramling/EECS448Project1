@@ -203,20 +203,14 @@ public class AddEventActivity extends Activity {
         /*pseudo: if intersection of (currentuser.signups.timeslots) list with (e.timeslots) list
          * is nonempty, -> conflict found, return false*/
 
-
-        //Verifications passed, attempt to add event
-        if (dbHelper.addEvent(e) == -1) {
-            statusMessage.setText("Something went wrong creating your event...");
-            return false;
-        }
-
         return true;
     }
 
     /**
      * onButtonClick() - Handles Save button - creates event object, verifies, and adds event
+     * @param v - (Given view)
      */
-    public void onButtonClick(View v) {
+    public void onSaveButtonClick(View v) {
 
         //Build date string for event
         DatePicker datePicker = (DatePicker) findViewById(R.id.datePicker);
@@ -225,7 +219,7 @@ public class AddEventActivity extends Activity {
         int year = datePicker.getYear();
         String date = HelperMethods.dateToString(month, day, year);
 
-        //get name of event
+        //Get name of event
         EditText nameText = (EditText) findViewById(R.id.textName);
         String name = nameText.getText().toString();
 
@@ -237,12 +231,16 @@ public class AddEventActivity extends Activity {
          *by the primary key upon insertion to the database after successful verification.*/
         Event e = new Event(-1, date, name, currentUser, timeslotIntList);
 
-        if (verify(e)){ // (Event is added to db at end of verify() method)
+        if (verify(e)){
 
+            dbHelper.addEvent(e);
             statusMessage.setText("Your event has been created.");
-        }
-        statusMessage.show();
+            statusMessage.show();
+            Intent intent = new Intent(getApplicationContext(), ListActivity.class);
+            finish();
+            startActivity(intent);
 
+        }else statusMessage.show();
     }
 
 

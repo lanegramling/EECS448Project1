@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -93,9 +94,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param e - Event object passed when the save button is clicked with valid event params
      * @since 1.0
      */
-    public long addEvent(Event e) { // TODO create entry in event table for given event
+    public long addEvent(Event e) {
 
-        //This is my attempt (Lane), I have no verification that it works
         SQLiteDatabase db = this.getWritableDatabase(); // is this okay?
         ContentValues values = new ContentValues();
 
@@ -108,14 +108,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * @return A sorted Vector of Events from the Database
+     * @return A sorted ArrayList of Events from the Database
      * @since 1.0
      */
-    public Vector<Event> getAllEvents() {
+    public ArrayList<Event> getAllEvents() {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Vector<Event> sortedListOfEvents = new Vector<Event>(); // Will be sorted through SQL
+        ArrayList<Event> sortedListOfEvents = new ArrayList<>(); // Will be sorted through SQL
 
         String[] columns = {
                 DBContract.EventTable._ID,
@@ -148,7 +148,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             day = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_DAY));
 
             //Create Event object from row and add to Vector
-            Event e = new Event(id, title, timeslots, creator, day);
+            Event e = new Event(id, day, title, creator, timeslots); // LOL This stuff was in the wrong order... Come on guys...
             sortedListOfEvents.add(e);
         }
 
@@ -160,10 +160,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param user - Username to retrieve events for.
      * @return Sorted Event vector of a given user's created events
      */
-    public Vector<Event> getUserEvents(String user) {
+    public ArrayList<Event> getUserEvents(String user) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Vector<Event> sortedListOfEvents = new Vector<Event>(); // Will be sorted through SQL
+        ArrayList<Event> sortedListOfEvents = new ArrayList<>(); // Will be sorted through SQL
 
         String[] userArr = {user}; //(Needs to be in an array to use as a WHERE argument)
 
@@ -185,7 +185,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 sortOrder
         );
 
-        //Populate event vector
+        //Populate event List
         while (query.moveToNext()) {
 
             int id;
@@ -198,7 +198,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             day = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_DAY));
 
             //Create Event object from row and add to Vector
-            Event e = new Event(id, title, timeslots, creator, day);
+            Event e = new Event(id, day, title, creator, timeslots);
             sortedListOfEvents.add(e);
         }
 
@@ -215,7 +215,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String requestedTimeslots;
         String eidAsStr = String.valueOf(eventID);
-
         String[] eventIDArr = {eidAsStr}; //(Needs to be in an array to use as a WHERE argument)
 
         String[] columns = {
@@ -226,7 +225,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor query = db.query(
                 DBContract.EventTable.TABLE_NAME,
                 columns,
-                "creator = ?", eventIDArr, null, null,
+                "timeslots = ?", eventIDArr, null, null,
                 null
         );
 

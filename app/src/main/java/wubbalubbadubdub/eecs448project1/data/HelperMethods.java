@@ -1,6 +1,7 @@
 package wubbalubbadubdub.eecs448project1.data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -125,10 +126,12 @@ public class HelperMethods {
      * @return List of timeslots in integer form
      */
     public static List<Integer> listifyTimeslotInts(String timeslotString) {
+        List<String> timeslotStrs = new ArrayList<>();
         List<Integer> timeslotInts = new ArrayList<>();
-        for (int i = 0; i < timeslotString.length(); i++)
-            if (Character.isDigit(timeslotString.charAt(i)))
-                timeslotInts.add(Character.getNumericValue(i));
+
+        timeslotStrs = Arrays.asList(timeslotString.split("\\s*,\\s*")); //Regex to interpret CSVs
+        for (String slot : timeslotStrs) timeslotInts.add(Integer.parseInt(slot));
+
         return timeslotInts;
     }
 
