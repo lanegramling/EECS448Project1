@@ -17,7 +17,7 @@ import wubbalubbadubdub.eecs448project1.data.DatabaseHelper;
 
 /**
  * This is the starting activity for our application. Here the user will select or add users
- * @author Damian
+ * @author Damian, Lane
  * @version 1.0
  */
 public class SelectUserActivity extends Activity {
@@ -75,17 +75,10 @@ public class SelectUserActivity extends Activity {
      */
     public void addUser(View v) {
         EditText textbox = (EditText) findViewById(R.id.newUsername);
-        String name = textbox.getText().toString();
+        String name = textbox.getText().toString().trim(); //removes any lead/trailing spaces as well
 
-        if (TextUtils.isEmpty(name)) {
-            statusMessage.setText("ERROR: Please input a name for the new user");
-        } else if (!isValidName(name)) {
-            statusMessage.setText("ERROR: Name contains invalid characters");
-        } else if (dbHelper.addUser(name) == -1) { // -1 when failed sql insert
-            statusMessage.setText("ERROR: That Username already exists");
-        } else {
-            statusMessage.setText(name + " was added to the list of users");
-        }
+
+        if (isValidName(name)) statusMessage.setText(name + " was added to the list of users");
         statusMessage.show();
         populateUsers();
     }
@@ -97,11 +90,17 @@ public class SelectUserActivity extends Activity {
      * @since 1.0
      */
     private boolean isValidName(String name) {
-        // TODO Change this to actual conditions later
-        if (TextUtils.isEmpty(name)) {
+
+        //Conditions for valid username creation
+        if (TextUtils.isEmpty(name)){                    //Empty name
+            statusMessage.setText("ERROR: Please input a name for the new user");
             return false;
-        } else {
-            return true;
-        }
+        } else if (!name.matches("[a-zA-Z\\s]+")) {    //Non a-z characters in name
+            statusMessage.setText("ERROR: Name contains invalid characters");
+            return false;
+        } else if (dbHelper.addUser(name) == -1) {       //name already exists
+            statusMessage.setText("ERROR: That Username already exists!");
+            return false;
+        }else return true;
     }
 }

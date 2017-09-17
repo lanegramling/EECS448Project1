@@ -17,6 +17,7 @@ Members: Damian Vu, Dustin Bingham, Lane Gramling
 - ~~Display list of users from database~~ **DONE!**
 - ~~Add ability to create users~~ **DONE!**
 - ~~Selecting a user takes you to ListActivity~~ **DONE!**
+- ~~Proper username validation~~ **DONE!**
 - Add ability to delete users (out-of-scope)
 
 ##### ListActivity
@@ -37,6 +38,8 @@ Members: Damian Vu, Dustin Bingham, Lane Gramling
   - Display availability and timeslot boxes
   
 ##### AddEventActivity
-- Date picking widget for the day of the year (restrict to only today + future days???)
-- Ability to select timeslots in which the event will occur
-- 24hr Time Toggle
+- ~~Date picking widget for the day of the year (restrict to only today + future days???)~~ **DONE!**
+- Gray out (disable) timeslots of times that have already passed if Today is chosen date? (out-of-scope)?
+- ~~Ability to select timeslots in which the event will occur~~ **DONE!**
+- ~~24hr Time Toggle~~ **DONE!**
+- Hook into database

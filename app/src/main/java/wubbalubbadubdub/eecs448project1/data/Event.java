@@ -1,10 +1,9 @@
 package wubbalubbadubdub.eecs448project1.data;
 
-import java.util.Date;
 
 /**
  * Event.java
- * @author Damian
+ * @author Damian, Lane
  * @version 1.0
  *
  * Event DataType for keeping track of events
@@ -12,15 +11,15 @@ import java.util.Date;
 public class Event {
 
     private int id;
-    private Date day;
+    private String date;
     private String name;
     private String creator;
     private String timeslots;
 
-    public Event(int inputID, Date inputDay, String inputName, String inputCreator, String inputTimeslots) {
+    public Event(int inputID, String inputDate, String inputName, String inputCreator, String inputTimeslots) {
         id = inputID;
         name = inputName;
-        day = inputDay;
+        date = inputDate;
         creator = inputCreator;
         timeslots = inputTimeslots;
     }
@@ -29,12 +28,10 @@ public class Event {
 
     // Getters
 
-    public int getID() {
-        return id;
-    }
+    public int getID() { return id; }
 
-    public Date getDay() {
-        return day;
+    public String getDate() {
+        return date;
     }
 
     public String getName() {

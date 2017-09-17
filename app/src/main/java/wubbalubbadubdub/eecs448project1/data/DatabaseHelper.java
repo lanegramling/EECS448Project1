@@ -33,6 +33,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Delete all tables
         db.execSQL(DBContract.UserTable.DROP_TABLE);
+        db.execSQL(DBContract.EventTable.DROP_TABLE);
+        db.execSQL(DBContract.SignupTable.DROP_TABLE);
         onCreate(db);
     }
 
@@ -83,32 +85,107 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //endregion
 
+
+
     //region Event Table Methods
 
     /**
-     *
+     * @param e - Event object passed when the save button is clicked with valid event params
+     * @since 1.0
+     */
+    public long addEvent(Event e) { // TODO create entry in event table for given event
+
+        //This is my attempt (Lane), I have no verification that it works
+        SQLiteDatabase db = this.getWritableDatabase(); // is this okay?
+        ContentValues values = new ContentValues();
+
+        values.put(DBContract.EventTable.COLUMN_NAME_TITLE, e.getName());
+        values.put(DBContract.EventTable.COLUMN_NAME_TIMESLOTS, e.getTimeslots());
+        values.put(DBContract.EventTable.COLUMN_NAME_CREATOR, e.getCreator());
+        values.put(DBContract.EventTable.COLUMN_NAME_DAY, e.getDate());
+
+        return db.insert(DBContract.EventTable.TABLE_NAME, null, values);
+    }
+
+    /**
      * @return A sorted Vector of Events from the Database
      * @since 1.0
      */
-    public Vector<Event> getAllEvents() {
+    public Vector<Event> getAllEvents() { // TODO set sortedListOfEvents = all Events in db as objs
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
         Vector<Event> sortedListOfEvents = new Vector<Event>(); // Will be sorted through SQL
+
+        String[] columns = {
+                DBContract.EventTable._ID,
+                DBContract.EventTable.COLUMN_NAME_TITLE,
+                DBContract.EventTable.COLUMN_NAME_TIMESLOTS,
+                DBContract.EventTable.COLUMN_NAME_CREATOR,
+                DBContract.EventTable.COLUMN_NAME_DAY
+        };
+
+        //Sort by day for now. Could hypothetically get weird when multiple years are involved
+        String sortOrder = DBContract.EventTable.COLUMN_NAME_DAY + " COLLATE NOCASE ASC";
+
+        Cursor query = db.query(
+                DBContract.EventTable.TABLE_NAME,
+                columns,
+                null, null, null, null,
+                sortOrder
+        );
+
+        //Populate event vector
+        while (query.moveToNext()) {
+
+            int id;
+            String title, timeslots, creator, day;
+
+            id = Integer.parseInt(query.getString(query.getColumnIndexOrThrow(DBContract.EventTable._ID)));
+            title = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_TITLE));
+            timeslots = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_TIMESLOTS));
+            creator = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_CREATOR));
+            day = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_DAY));
+
+            //Create Event object from row and add to Vector
+            Event e = new Event(id, title, timeslots, creator, day);
+            sortedListOfEvents.add(e);
+        }
 
         return sortedListOfEvents;
     }
 
     /**
-     *
      * @param eventID ID of event in Table
      * @return String of timeslots for a given event ID
      */
-    public String getTimeslots(int eventID) {
+    public String getTimeslots(int eventID) { // TODO return timeslots cell for a given eventID from db
+        //Q: Will the timeslots need to be parsed into (contiguous-concatenated) time format here?
+
 
         return "";
     }
 
     //endregion
 
+
+
     //region Signup Table Methods
+
+    public void addSignup(int eventID, String user) {// TODO create entry in signups table
+        //Q: Should we pass an eventID or an Event object?
+
+    }
+
+    public List<String> getSignups(int eventID) { // TODO return list of signed up users(?) for given event
+        //Q: Are we returning a list of users or something else?
+        //Q: Should we pass an eventID or an Event object?
+        List<String> dummyreturn = new ArrayList<>();
+
+        return dummyreturn;
+    }
+
+
 
     //endregion
 }
