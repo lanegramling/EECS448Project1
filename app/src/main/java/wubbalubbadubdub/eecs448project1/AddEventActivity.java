@@ -18,7 +18,9 @@ import android.widget.Toast;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 
@@ -78,8 +80,10 @@ public class AddEventActivity extends Activity {
         });
 
         datePicker.setMinDate(System.currentTimeMillis() - 1000);
-        //Can set up to 14 days in advance. (30 days resulted in overflow as int was >2^31) (keep or nah?)
-        datePicker.setMaxDate(System.currentTimeMillis() + (1000*60*60*24*14));
+        Calendar max = Calendar.getInstance();
+        max.set(Calendar.YEAR, 2100);
+
+        datePicker.setMaxDate((max.getTime()).getTime());
 
 
     }
