@@ -211,42 +211,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return sortedListOfEvents;
     }
 
-    /**
-     * @param eventID ID of event in Table
-     * @return String of timeslots for a given event ID
-     */
-    public String getTimeslots(int eventID) { // TODO return timeslots cell for a given eventID from db
-
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        String requestedTimeslots;
-        String eidAsStr = String.valueOf(eventID);
-        String[] eventIDArr = {eidAsStr}; //(Needs to be in an array to use as a WHERE argument)
-
-        String[] columns = {
-                DBContract.EventTable._ID,
-                DBContract.EventTable.COLUMN_NAME_TIMESLOTS,
-        };
-
-        Cursor query = db.query(
-                DBContract.EventTable.TABLE_NAME,
-                columns,
-                "timeslots = ?", eventIDArr, null, null,
-                null
-        );
-
-        requestedTimeslots = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_TIMESLOTS));
-
-        query.close();
-
-        return requestedTimeslots;
-    }
-
     //endregion
 
 
 
     //region Signup Table Methods
+
+    /**
+     * @param eventID ID of event in Table
+     * @return Event object containing all event info
+     */
+    public Event getEvent(int eventID) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String[] columns = {
+                DBContract.EventTable.COLUMN_NAME_TIMESLOTS,
+                DBContract.EventTable.COLUMN_NAME_CREATOR,
+                DBContract.EventTable.COLUMN_NAME_DAY,
+                DBContract.EventTable.COLUMN_NAME_TITLE
+        };
+
+        String[] where = {Integer.toString(eventID)};
+
+        Cursor query = db.query(
+                DBContract.EventTable.TABLE_NAME,
+                columns,
+                "_ID = ?", where , null, null,
+                null
+        );
+
+        query.moveToNext();
+
+        String date = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_DAY));
+        String creator = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_CREATOR));
+        String name = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_TITLE));
+        String timeslots = query.getString(query.getColumnIndexOrThrow(DBContract.EventTable.COLUMN_NAME_TIMESLOTS));
+
+        Event returnEvent = new Event(eventID, date, name, creator, timeslots);
+
+
+        query.close();
+
+        return returnEvent;
+    }
 
     public void addSignup(int eventID, String user) {// TODO create entry in signups table
         //Q: Should we pass an eventID or an Event object?
