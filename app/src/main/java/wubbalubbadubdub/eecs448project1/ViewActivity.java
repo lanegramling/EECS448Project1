@@ -42,6 +42,7 @@ public class ViewActivity extends Activity {
     private List<Integer> selectedTimeslots;
 
     private int selectedRow = -1;
+    private int selectedSlot = -1;
 
     private Map<String, String> userSignups;
 
@@ -218,6 +219,21 @@ public class ViewActivity extends Activity {
             slotHeader.setTextSize(15);
             slotHeader.setTypeface(null, Typeface.BOLD);
             slotHeader.setLayoutParams(cellParams);
+            final int thisSlot = slot;
+
+            slotHeader.setOnClickListener(new View.OnClickListener() {
+                int slot = thisSlot;
+
+                @Override
+                public void onClick(View view) {
+                    selectedRow = -1;
+                    selectedSlot = slot;
+
+                    highlightSelection();
+
+                }
+            });
+
             header.addView(slotHeader);
         }
 
@@ -284,11 +300,24 @@ public class ViewActivity extends Activity {
             String user = ((TextView)highlight.getChildAt(0)).getText().toString();
 
             disp = user + "'s Availability: " + HelperMethods.getTimeString(HelperMethods.listifyTimeslotInts((userSignups.get(user))), format);
-
-            ((TextView)findViewById(R.id.tvSelectedUser)).setText(disp);
         } else {
 
+            String users = "";
+            int userCount = 0;
+
+            for (Map.Entry<String, String> entry : userSignups.entrySet()) {
+                if (HelperMethods.listifyTimeslotInts(entry.getValue()).contains(selectedSlot)) {
+                    userCount++;
+                    users = users + entry.getKey() + ", ";
+                }
+            }
+
+            if (userCount > 0) users = users.substring(0, users.length() - 3);
+
+            disp = "For timeslot " + HelperMethods.toTime(selectedSlot, format) + " " + userCount + " user(s) are available: " + users;
         }
+
+        ((TextView)findViewById(R.id.tvSelectedUser)).setText(disp);
     }
 
     /**
