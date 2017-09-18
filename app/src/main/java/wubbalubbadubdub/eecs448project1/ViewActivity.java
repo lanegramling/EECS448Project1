@@ -22,6 +22,12 @@ import wubbalubbadubdub.eecs448project1.data.DatabaseHelper;
 import wubbalubbadubdub.eecs448project1.data.Event;
 import wubbalubbadubdub.eecs448project1.data.HelperMethods;
 
+/**
+ * This activity is for viewing a certain activity.
+ * The view will be different dependent on if the Current user was the creator of the event
+ * @author Dustin, Lane, Damian
+ * @version 1.0
+ */
 public class ViewActivity extends Activity {
 
     DatabaseHelper dbHelper;
@@ -49,6 +55,10 @@ public class ViewActivity extends Activity {
     int BLUE_MAT = Color.rgb(2,136,209);
     int GREEN_MAT = Color.rgb(139,195,74);
 
+    /**
+     * Method called when the activity is first created and displayed to the screen
+     * @param savedInstanceState Unused Bundle object. Usually used if the app is killed then we can resume
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +112,9 @@ public class ViewActivity extends Activity {
 
     }
 
+    /**
+     * This method fills the timeslot table with the timeslots local to the current event
+     */
     private void populateTimeslotTable() {
         TableLayout layout = (TableLayout) findViewById(R.id.tbLayout);
 
@@ -172,6 +185,9 @@ public class ViewActivity extends Activity {
         updateTimeDisplay();
     }
 
+    /**
+     * This method displays the Event timeframe and which users are signed up
+     */
     private void displayEventSignups() {
         TableLayout layout = (TableLayout) findViewById(R.id.tbLayout);
 
@@ -254,6 +270,10 @@ public class ViewActivity extends Activity {
         }
     }
 
+    /**
+     * This method allows for selection of a table row and displaying a user-friendly list of
+     * the given user's availability
+     */
     private void highlightSelection() {
         if (selectedRow != -1) {
             String disp;
@@ -269,6 +289,10 @@ public class ViewActivity extends Activity {
         }
     }
 
+    /**
+     * This function saves the user's current availability for an event
+     * @param v View of the button that was pressed
+     */
     public void saveSelection(View v) {
         if (prevSignup) {
             // User has signed up previously, so call the update method
@@ -288,6 +312,9 @@ public class ViewActivity extends Activity {
         statusMessage.show();
     }
 
+    /**
+     * This function updates the display of the user's current selected availability.
+     */
     private void updateTimeDisplay() {
         TextView timeDisplay = (TextView) findViewById(R.id.tvSelectedTimes);
 
@@ -296,6 +323,9 @@ public class ViewActivity extends Activity {
         timeDisplay.setText(disp);
     }
 
+    /**
+     * This function updates the timeframe of the event on creation and when the 12h/24h is toggled.
+     */
     private void updateTimeframe() {
 
         TextView eventTimeframe = (TextView) findViewById(R.id.tvEventTimeframe);
@@ -303,6 +333,10 @@ public class ViewActivity extends Activity {
         eventTimeframe.setText("Event timeframe: " + HelperMethods.getTimeString(currentTimeslots, format));
     }
 
+    /**
+     * This function toggles the 12h/24h format
+     * @param v View of the button that was pressed
+     */
     public void toggleTimeFormat(View v) {
         format = !format;
 
