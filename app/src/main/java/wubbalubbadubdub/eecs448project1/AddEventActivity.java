@@ -99,6 +99,7 @@ public class AddEventActivity extends Activity {
                 Button b = new Button(this);
                 b.setText(HelperMethods.toTime(count,format));
                 b.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
+                b.setTransformationMethod(null);
                 TableRow.LayoutParams cellParams = new TableRow.LayoutParams();
                 cellParams.rightMargin = 5;
                 b.setLayoutParams(cellParams);
