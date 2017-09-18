@@ -66,6 +66,7 @@ public class ViewActivity extends Activity {
         TextView eventName = (TextView) findViewById(R.id.tvEventName);
         TextView eventCreator = (TextView) findViewById(R.id.tvCreator);
         TextView eventDate = (TextView) findViewById(R.id.tvDate);
+        TextView eventTimeframe = (TextView) findViewById(R.id.tvEventTimeframe);
 
         eventName.setText(currentEvent.getName());
         eventCreator.setText(creatorString);
@@ -73,6 +74,9 @@ public class ViewActivity extends Activity {
 
         currentTimeslots = HelperMethods.listifyTimeslotInts(currentEvent.getTimeslots());
         selectedTimeslots = new ArrayList<>();
+
+
+        eventTimeframe.setText("Event timeframe: " + HelperMethods.getTimeString(currentTimeslots, format));
 
         userSignups = dbHelper.getSignups(currentID);
 
@@ -86,7 +90,7 @@ public class ViewActivity extends Activity {
         } else {
             // Set availability
 
-
+            ((TextView)findViewById(R.id.tvSelectedUser)).setVisibility(View.GONE);
             populateTimeslotTable();
         }
 
@@ -183,34 +187,64 @@ public class ViewActivity extends Activity {
         header.setBackgroundColor(Color.GRAY);
 
         layout.addView(header);
-
+        int count = 1;
         for (Map.Entry<String, String> entry : userSignups.entrySet()) {
             TableRow signupRow = new TableRow(this);
 
             TextView username = new TextView(this);
-            username.setPadding(10, 5, 10, 5);
+            username.setPadding(10, 20, 10, 20);
             username.setText(entry.getKey());
+            username.setTypeface(null, Typeface.BOLD);
             signupRow.addView(username);
             List<Integer> slots = HelperMethods.listifyTimeslotInts(entry.getValue());
 
             for (int slot : currentTimeslots) {
                 TextView avail = new TextView(this);
 
-                if (slots.contains(Integer.valueOf(slot))) {
+                if (slots.contains(slot)) {
                     // User is signed up for this
                     avail.setText("AVAILABLE");
                     avail.setBackgroundColor(GREEN_MAT);
+                } else if (entry.getValue().isEmpty()) {
+                    avail.setBackgroundColor(Color.RED);
                 } else {
-                    avail.setText("NOT AVAILABLE");
-                    avail.setBackgroundColor(Color.rgb(239, 83, 80));
+                    avail.setBackgroundColor(Color.LTGRAY);
                 }
-                avail.setPadding(10, 5, 10, 5);
+                avail.setPadding(20, 20, 20, 20);
 
                 signupRow.addView(avail);
             }
 
-            layout.addView(signupRow);
+            final int currentRow = count;
 
+            signupRow.setOnClickListener(new View.OnClickListener() {
+                int thisRow = currentRow;
+
+                @Override
+                public void onClick(View view) {
+                    selectedRow = thisRow;
+                    highlightSelection();
+                }
+            });
+
+            layout.addView(signupRow);
+            count++;
+
+        }
+    }
+
+    private void highlightSelection() {
+        if (selectedRow != -1) {
+            String disp;
+            TableLayout layout = (TableLayout) findViewById(R.id.tbLayout);
+
+            TableRow highlight = (TableRow)layout.getChildAt(selectedRow);
+
+            String user = ((TextView)highlight.getChildAt(0)).getText().toString();
+
+            disp = user + "'s Availability: " + HelperMethods.getTimeString(HelperMethods.listifyTimeslotInts((userSignups.get(user))), format);
+
+            ((TextView)findViewById(R.id.tvSelectedUser)).setText(disp);
         }
     }
 
