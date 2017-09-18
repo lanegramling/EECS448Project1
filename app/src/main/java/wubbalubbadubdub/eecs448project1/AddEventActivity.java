@@ -180,6 +180,8 @@ public class AddEventActivity extends Activity {
 
         String disp = "Event Timeframe: " + HelperMethods.getTimeString(selectedTimeslots, format);
 
+        if (selectedTimeslots.isEmpty()) disp = "PLEASE SELECT TIMES";
+
         timeDisplay.setText(disp);
     }
 
