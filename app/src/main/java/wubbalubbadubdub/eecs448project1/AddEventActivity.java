@@ -2,7 +2,6 @@ package wubbalubbadubdub.eecs448project1;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -19,8 +18,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 
@@ -212,9 +209,6 @@ public class AddEventActivity extends Activity {
         //Name verification
         if (e.getName().isEmpty()) {
             statusMessage.setText("ERROR: Please name your event!");
-            return false;
-        } else if (!e.getName().matches("[a-zA-Z0-9\\s]+")) {  // TODO establish rules for event names. apostrophes? etc. (e.g. "Lane's b-day")
-            statusMessage.setText("ERROR: Event name has invalid characters!");
             return false;
         }
 
