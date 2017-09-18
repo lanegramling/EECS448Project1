@@ -14,6 +14,9 @@ import java.util.List;
  */
 public class HelperMethods {
 
+    /**
+     * Private constructor so that this class is never initialized
+     */
     private HelperMethods(){}
 
     /**
@@ -75,6 +78,7 @@ public class HelperMethods {
     }
 
     /**
+     * Converts List of timeslots to a readable integer string
      * @param timeslots - list of timeslots in integer form
      * @param format - 12h/24h format boolean
      * @return concatenated string of timeslot list
@@ -139,6 +143,11 @@ public class HelperMethods {
         return timeslotInts;
     }
 
+    /**
+     * Conversion of event strings to integer values
+     * @param eventDateString String date of format MM/DD/YYYY
+     * @return Int array with index 0 = month, 1 = day, 2 = year
+     */
     public static int[] getMonthDayYear(String eventDateString) {
         String[] mmddyyyy = eventDateString.split("/");
 

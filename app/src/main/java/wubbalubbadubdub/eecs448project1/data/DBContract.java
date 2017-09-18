@@ -17,7 +17,7 @@ public final class DBContract {
 
 
     /**
-     * Constructor is private so the contract can never be initialized
+     * Constructor is private so the contract can never be somehow initialized
      */
     private DBContract() {}
 

@@ -20,10 +20,18 @@ import java.util.Vector;
  * This class contains helper methods that interact with the Database. This replaced the Dataclass
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
+    /**
+     * Default constructor for the databasehelper.
+     * @param context Always the entire application context because we want the database to be for the whole application.
+     */
     public DatabaseHelper(Context context) {
         super(context, DBContract.DATABASE_NAME, null, DBContract.DATABASE_VERSION);
     }
 
+    /**
+     * Called when the DatabaseHelper class is created. Will create database tables if they do not exist.
+     * @param db Current writable database
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Create all tables
@@ -32,6 +40,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(DBContract.SignupTable.CREATE_TABLE);
     }
 
+    /**
+     * Called when the database version is changed in DBContract
+     * @param db Current writable database
+     * @param oldVersion Old version of DB. Set in DBContract
+     * @param newVersion New version of DB. Set in DBContract
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Delete all tables
@@ -95,6 +109,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //region Event Table Methods
 
     /**
+     * This function will add an event to the event table
      * @param e - Event object passed when the save button is clicked with valid event params
      * @return event ID
      * @since 1.0
@@ -130,6 +145,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * This function will get all events from the event table
      * @return A sorted ArrayList of Events from the Database
      * @since 1.0
      */
@@ -276,6 +292,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return returnEvent;
     }
 
+    /**
+     * This method will add a users availability to the signup table
+     * @param eventID int ID of event
+     * @param user String username that is signing up
+     * @param availability Integer List of timeslots
+     * @return long value of the row in the table that was created
+     */
     public long addSignup(int eventID, String user, List<Integer> availability) {// TODO create entry in signups table
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -289,6 +312,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(DBContract.SignupTable.TABLE_NAME, null, values);
     }
 
+    /**
+     * This method will return a Hashmap of users along with availability for a given event
+     * @param eventID int ID of event
+     * @return Hashmap of user keypairs with availability keyvalues
+     */
     public Map<String, String> getSignups(int eventID) { // TODO return list of signed up users(?) for given event
         SQLiteDatabase db = this.getReadableDatabase();
         Map<String, String> userSignup = new HashMap<>();
@@ -314,6 +342,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return userSignup;
     }
 
+    /**
+     * This method will update a given user's availability for an event.
+     * @param eventID int ID of event
+     * @param user String username that is changing availability
+     * @param availability Integer List of timeslots
+     * @return int value of the row in the table that was updated
+     */
     public int updateSignup(int eventID, String user, List<Integer> availability) {
         SQLiteDatabase db = this.getWritableDatabase();
 

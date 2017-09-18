@@ -87,6 +87,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select a user's row to view a more readable timeframe"
+        android:textSize="15sp"
+        android:textStyle="bold"
         tools:layout_constraintBottom_creator="1"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         tools:layout_constraintLeft_creator="1"
@@ -103,7 +105,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/tvSelectedTimes"
         android:layout_marginTop="41dp"
         tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="36dp"
+        android:layout_marginBottom="35dp"
         app:layout_constraintLeft_toLeftOf="@+id/tvSelectedTimes"
         app:layout_constraintTop_toTopOf="@+id/tvEventTimeframe"
         android:id="@+id/linearLayout">
@@ -126,9 +128,24 @@
 
                 <TableLayout
                     android:id="@+id/tbLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"></TableLayout>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
             </HorizontalScrollView>
         </ScrollView>
     </LinearLayout>
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOff="12h"
+        android:textOn="24h"
+        android:onClick="toggleTimeFormat"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        android:layout_marginEnd="2dp"
+        app:layout_constraintRight_toRightOf="@+id/linearLayout"
+        android:layout_marginBottom="27dp" />
+
 </android.support.constraint.ConstraintLayout>

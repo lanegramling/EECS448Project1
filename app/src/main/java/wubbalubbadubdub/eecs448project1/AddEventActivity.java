@@ -31,7 +31,7 @@ import wubbalubbadubdub.eecs448project1.data.HelperMethods; //For toTime() metho
 /**
  * AddEventActivity.java
  * @author Dustin, Damian, Lane
- * @version 1.0
+ * @version 1.1
  * This Class allows the user to create an event and select timeslots for the event created
  */
 public class AddEventActivity extends Activity {
@@ -47,6 +47,10 @@ public class AddEventActivity extends Activity {
     int BLUE_MAT = Color.rgb(2,136,209);
     int GREEN_MAT = Color.rgb(139,195,74);
 
+    /**
+     * Method called when the activity is first created. Lots of formatting done.
+     * @param savedInstanceState Unused Bundle object. Usually used if the app is killed then we can resume
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +92,9 @@ public class AddEventActivity extends Activity {
 
     }
 
+    /**
+     * This function will create the table of buttons to select an event's timeframe
+     */
     private void createTimeslotTable() {
         TableLayout layout = (TableLayout) findViewById(R.id.tbLayout);
 
@@ -158,6 +165,10 @@ public class AddEventActivity extends Activity {
 
     }
 
+    /**
+     * This function is called when the 12h/24h toggle button is pressed
+     * @param v View of the pressed button
+     */
     public void toggleFormat(View v) {
         TableLayout tableLayout = (TableLayout) findViewById(R.id.tbLayout);
 
@@ -176,14 +187,24 @@ public class AddEventActivity extends Activity {
 
     }
 
+    /**
+     * Updates the Selected timeframe for the event
+     */
     private void updateTimeDisplay() {
         TextView timeDisplay = (TextView) findViewById(R.id.tvSelectedTimes);
 
         String disp = "Event Timeframe: " + HelperMethods.getTimeString(selectedTimeslots, format);
 
+        if (selectedTimeslots.isEmpty()) disp = "PLEASE SELECT TIMES";
+
         timeDisplay.setText(disp);
     }
 
+    /**
+     * Verifies that the Event is valid before attempting to insert to the database
+     * @param e Event object of the event to be created.
+     * @return True if valid, false otherwise
+     */
     boolean verify(Event e) {
 
         //Dates should have no way of being invalid
@@ -211,8 +232,8 @@ public class AddEventActivity extends Activity {
     }
 
     /**
-     * onButtonClick() - Handles Save button - creates event object, verifies, and adds event
-     * @param v - (Given view)
+     * onSaveButtonClick() - Handles Save button - creates event object, verifies, and adds event
+     * @param v View of the button that was pressed
      */
     public void onSaveButtonClick(View v) {
 
