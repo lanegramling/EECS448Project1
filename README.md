@@ -29,17 +29,17 @@ Members: Damian Vu, Dustin Bingham, Lane Gramling
 - Add ability to sort events (out-of-scope)
 
 ##### ViewActivity
-- Display info about event dependent on if current user is the creator
-- 24hr Time Toggle
-- Admin Mode
-  - Display event times and users signed up at each timeslot from Signup table
-- User Mode
-  - Pull previous availability from Signup table
+- ~~Display info about event dependent on if current user is the creator~~ **DONE!**
+- ~~24hr Time Toggle~~ **DONE!**
+- ~~Admin Mode~~ **DONE!**
+  - ~~Display event times and users signed up at each timeslot from Signup table~~ **DONE!**
+- ~~User Mode~~ **DONE!**
+  - ~~Pull previous availability from Signup table~~ **DONE!**
   - ~~Display availability and timeslot boxes~~ **DONE!**
   
 ##### AddEventActivity
 - ~~Date picking widget for the day of the year (restrict to only today + future days???)~~ **DONE!**
-- Gray out (disable) timeslots of times that have already passed if Today is chosen date? (out-of-scope)?
+- ~~Gray out (disable) timeslots of times that have already passed if Today is chosen date? (out-of-scope)?~~ **DONE!**
 - ~~Ability to select timeslots in which the event will occur~~ **DONE!**
 - ~~24hr Time Toggle~~ **DONE!**
 - ~~Hook into database~~ **DONE!** 21
