@@ -76,13 +76,16 @@ public class ViewActivity extends Activity {
 
         currentEvent = dbHelper.getEvent(currentID);
 
+        adminMode = currentUser.equals(currentEvent.getCreator());
+
         String creatorString = "Created by: " + currentEvent.getCreator();
+        String eventString = currentEvent.getName() + " - " + ((adminMode) ? "Admin Mode" : "Select Availability");
 
         TextView eventName = (TextView) findViewById(R.id.tvEventName);
         TextView eventCreator = (TextView) findViewById(R.id.tvCreator);
         TextView eventDate = (TextView) findViewById(R.id.tvDate);
 
-        eventName.setText(currentEvent.getName());
+        eventName.setText(eventString);
         eventCreator.setText(creatorString);
         eventDate.setText(currentEvent.getDate());
 
@@ -97,7 +100,6 @@ public class ViewActivity extends Activity {
         prevSignup = userSignups.containsKey(currentUser);
 
 
-        adminMode = currentUser.equals(currentEvent.getCreator());
 
         if (adminMode) {
             // View event status
@@ -341,6 +343,7 @@ public class ViewActivity extends Activity {
             }
         }
         statusMessage.show();
+        finish();
     }
 
     /**
