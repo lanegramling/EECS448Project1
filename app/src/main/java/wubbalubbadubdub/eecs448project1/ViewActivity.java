@@ -142,7 +142,7 @@ public class ViewActivity extends Activity {
                 b.setLayoutParams(cellParams);
                 if (currentTimeslots.contains(count)) {
                     boolean intSelect = false;
-                    if (currentUserSelection != null && currentUserSelection.contains(Integer.valueOf(count))) {
+                    if (currentUserSelection != null && currentUserSelection.contains(count)) {
                         intSelect = true;
                         b.setBackgroundColor(BLUE_MAT);
                     } else {
@@ -203,7 +203,7 @@ public class ViewActivity extends Activity {
 
 
         TableRow.LayoutParams cellParams = new TableRow.LayoutParams();
-        cellParams.setMargins(10, 5, 10, 5);
+        cellParams.setMargins(20, 20, 20, 20);
 
         TextView userHeader = new TextView(this);
         userHeader.setText("User");
@@ -275,17 +275,19 @@ public class ViewActivity extends Activity {
      * the given user's availability
      */
     private void highlightSelection() {
-        if (selectedRow != -1) {
-            String disp;
-            TableLayout layout = (TableLayout) findViewById(R.id.tbLayout);
+        String disp;
+        TableLayout layout = (TableLayout) findViewById(R.id.tbLayout);
 
-            TableRow highlight = (TableRow)layout.getChildAt(selectedRow);
+        TableRow highlight = (TableRow)layout.getChildAt(selectedRow);
+        if (selectedRow != -1) {
 
             String user = ((TextView)highlight.getChildAt(0)).getText().toString();
 
             disp = user + "'s Availability: " + HelperMethods.getTimeString(HelperMethods.listifyTimeslotInts((userSignups.get(user))), format);
 
             ((TextView)findViewById(R.id.tvSelectedUser)).setText(disp);
+        } else {
+
         }
     }
 

@@ -14,9 +14,11 @@
         android:layout_height="wrap_content"
         android:text="Select a User"
         android:textSize="100px"
-        android:layout_marginStart="134dp"
-        tools:layout_editor_absoluteY="54dp"
-        tools:layout_editor_absoluteX="134dp" />
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toTopOf="@+id/lvUsers"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="27dp"
+        app:layout_constraintLeft_toLeftOf="@+id/lvUsers" />
 
     <EditText
         android:id="@+id/newUsername"
@@ -26,9 +28,10 @@
         android:inputType="textPersonName"
         android:hint="New Username"
         android:maxLength="20"
-        android:layout_marginStart="7dp"
-        tools:layout_editor_absoluteY="531dp"
-        tools:layout_editor_absoluteX="195dp" />
+        app:layout_constraintRight_toLeftOf="@+id/addUserButton"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintTop_toTopOf="@+id/addUserButton" />
 
     <TextView
         android:id="@+id/textView7"
@@ -36,9 +39,12 @@
         android:layout_height="wrap_content"
         android:text="OR"
         android:textSize="40dp"
-        android:layout_marginStart="134dp"
-        tools:layout_editor_absoluteY="531dp"
-        tools:layout_editor_absoluteX="134dp" />
+        app:layout_constraintRight_toLeftOf="@+id/newUsername"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginEnd="9dp"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@+id/lvUsers" />
 
     <Button
         android:id="@+id/addUserButton"
@@ -46,16 +52,22 @@
         android:layout_height="wrap_content"
         android:text="Add New User"
         android:onClick="addUser"
-        android:layout_marginStart="21dp"
-        tools:layout_editor_absoluteY="531dp"
-        tools:layout_editor_absoluteX="410dp" />
+        android:layout_marginStart="410dp"
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@+id/lvUsers"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <ListView
         android:id="@+id/lvUsers"
         android:layout_width="0dp"
         android:layout_height="384dp"
-        android:layout_marginEnd="2dp"
-        tools:layout_editor_absoluteY="140dp"
-        tools:layout_editor_absoluteX="134dp" />
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="@+id/textView7"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
