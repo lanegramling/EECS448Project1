@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -42,6 +43,8 @@ public class ViewActivity extends Activity {
 
     private boolean prevSignup;
 
+    private boolean adminMode;
+
     //Color Variables - Material Design
     int BLUE_MAT = Color.rgb(2,136,209);
     int GREEN_MAT = Color.rgb(139,195,74);
@@ -57,6 +60,7 @@ public class ViewActivity extends Activity {
 
         statusMessage = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 
+
         dbHelper = new DatabaseHelper(getApplicationContext());
 
         currentEvent = dbHelper.getEvent(currentID);
@@ -66,7 +70,6 @@ public class ViewActivity extends Activity {
         TextView eventName = (TextView) findViewById(R.id.tvEventName);
         TextView eventCreator = (TextView) findViewById(R.id.tvCreator);
         TextView eventDate = (TextView) findViewById(R.id.tvDate);
-        TextView eventTimeframe = (TextView) findViewById(R.id.tvEventTimeframe);
 
         eventName.setText(currentEvent.getName());
         eventCreator.setText(creatorString);
@@ -76,13 +79,16 @@ public class ViewActivity extends Activity {
         selectedTimeslots = new ArrayList<>();
 
 
-        eventTimeframe.setText("Event timeframe: " + HelperMethods.getTimeString(currentTimeslots, format));
+        updateTimeframe();
 
         userSignups = dbHelper.getSignups(currentID);
 
         prevSignup = userSignups.containsKey(currentUser);
 
-        if (currentUser.equals(currentEvent.getCreator())) {
+
+        adminMode = currentUser.equals(currentEvent.getCreator());
+
+        if (adminMode) {
             // View event status
             displayEventSignups();
 
@@ -98,6 +104,13 @@ public class ViewActivity extends Activity {
 
     private void populateTimeslotTable() {
         TableLayout layout = (TableLayout) findViewById(R.id.tbLayout);
+
+        // Clear table
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            View row = layout.getChildAt(i);
+            if (row instanceof TableRow) ((ViewGroup) row).removeAllViews();
+            layout.removeAllViews();
+        }
 
         List<Integer> currentUserSelection = (prevSignup) ? HelperMethods.listifyTimeslotInts(userSignups.get(currentUser)) : null;
 
@@ -163,6 +176,14 @@ public class ViewActivity extends Activity {
         TableLayout layout = (TableLayout) findViewById(R.id.tbLayout);
 
         TableRow header = new TableRow(this);
+
+
+        // Clear table
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            View row = layout.getChildAt(i);
+            if (row instanceof TableRow) ((ViewGroup) row).removeAllViews();
+            layout.removeAllViews();
+        }
 
 
         TableRow.LayoutParams cellParams = new TableRow.LayoutParams();
@@ -273,5 +294,26 @@ public class ViewActivity extends Activity {
         String disp = "Your Selected Availability: " + HelperMethods.getTimeString(selectedTimeslots, format);
 
         timeDisplay.setText(disp);
+    }
+
+    private void updateTimeframe() {
+
+        TextView eventTimeframe = (TextView) findViewById(R.id.tvEventTimeframe);
+
+        eventTimeframe.setText("Event timeframe: " + HelperMethods.getTimeString(currentTimeslots, format));
+    }
+
+    public void toggleTimeFormat(View v) {
+        format = !format;
+
+        if (adminMode) {
+            displayEventSignups();
+            highlightSelection();
+        } else {
+            populateTimeslotTable();
+
+            updateTimeDisplay();
+        }
+        updateTimeframe();
     }
 }
