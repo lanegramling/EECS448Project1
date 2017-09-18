@@ -7,21 +7,16 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import wubbalubbadubdub.eecs448project1.data.DatabaseHelper;
 import wubbalubbadubdub.eecs448project1.data.Event;
 import wubbalubbadubdub.eecs448project1.data.HelperMethods;
-
-import org.w3c.dom.Text;
 
 /**
  * This page list all the activities created by other users.
