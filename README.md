@@ -11,7 +11,7 @@ Members: Damian Vu, Dustin Bingham, Lane Gramling
 - ~~Dummy method implementation~~ **DONE!**
 - ~~Implement User Table methods~~ **DONE!**
 - ~~Implement Event Table methods~~ **DONE!**
-- Implement Signup Table methods
+- ~~Implement Signup Table methods~~ **DONE!**
 
 ##### SelectUserActivity
 - ~~Display list of users from database~~ **DONE!**
@@ -42,4 +42,4 @@ Members: Damian Vu, Dustin Bingham, Lane Gramling
 - ~~Gray out (disable) timeslots of times that have already passed if Today is chosen date? (out-of-scope)?~~ **DONE!**
 - ~~Ability to select timeslots in which the event will occur~~ **DONE!**
 - ~~24hr Time Toggle~~ **DONE!**
-- ~~Hook into database~~ **DONE!** 21
+- ~~Hook into database~~ **DONE!**
